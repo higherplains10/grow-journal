@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)file:///Users/timothyhughes/Downloads/grow-journal-v2.html -->
+<!-- saved from url=(0060)file:///Users/timothyhughes/Downloads/grow-journal-v2_1.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mycelium Lab — Grow Journal</title>
-<link href="./Mycelium Lab — Grow Journal_files/css2" rel="stylesheet">
+<link href="./index_files/css2" rel="stylesheet">
 <style>
 :root{--bg:#0a1412;--s1:#0f1e1a;--s2:#142420;--s3:#1a2e28;--border:#1e3530;--border2:#2a4540;--teal:#2a7a6a;--teal2:#3a9a88;--teal3:#4ab8a4;--amber:#d4852a;--amber2:#e8a040;--amber3:#f0b85a;--red:#c04830;--red2:#d85a40;--text:#c8d8d0;--text2:#8aa898;--muted:#4a6860;--dim:#3a5248;--ok:#4a9870;--warn:#c89040;--danger:#b04040;--white:#e8f0ec;}
 *{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;}
@@ -893,7 +893,7 @@ select option{background:var(--s2);}
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="document.getElementById(&#39;lightbox&#39;).classList.remove(&#39;open&#39;)">
   <button class="lightbox-close">✕</button>
-  <img id="lb-img" src="file:///Users/timothyhughes/Downloads/grow-journal-v2.html" alt="">
+  <img id="lb-img" src="file:///Users/timothyhughes/Downloads/grow-journal-v2_1.html" alt="">
   <div class="lightbox-caption" id="lb-cap"></div>
 </div>
 
@@ -1037,6 +1037,9 @@ function show(id){
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
   const pg=document.getElementById('pg-'+id); if(pg) pg.classList.add('on');
   const ni=document.getElementById('n-'+id); if(ni) ni.classList.add('on');
+  // Scroll the main content area to top, not window
+  const main=document.querySelector('.main');
+  if(main) main.scrollTop=0;
   if(typeof window!=='undefined') window.scrollTo(0,0);
 }
 function toggleForm(id){ const el=document.getElementById(id); if(el) el.style.display=el.style.display==='none'?'block':'none'; }
@@ -1296,6 +1299,8 @@ function wizStep(n){
   document.getElementById('wp-'+n).classList.add('active');
   document.getElementById('ws-'+n).classList.add('active');
   if(n===5) buildSummary();
+  const main=document.querySelector('.main');
+  if(main) main.scrollTop=0;
 }
 function autoFillSpore(){
   const key=v('nb-spore');if(!key) return;
