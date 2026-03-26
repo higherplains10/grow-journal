@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mycelium Lab — Personal mushroom cultivation journal">
+<title>Mycelium Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafbfc;--white:#fff;--card:#fff;--border:#e8ecf0;--border2:#d0d7de;--text:#1a2332;--text2:#4a5568;--muted:#8896a6;--dim:#b4bec9;--accent:#0969da;--green:#1a7f37;--green-bg:#dafbe1;--amber:#bf8700;--amber-bg:#fff8c5;--red:#cf222e;--red-bg:#ffebe9;--surface:#f6f8fa;--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);--shadow2:0 4px 12px rgba(0,0,0,.08)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',-apple-system,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.app{max-width:1200px;margin:0 auto;padding:0 24px 60px}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:32px}
+.logo{font-size:20px;font-weight:700;letter-spacing:-.5px}
+.logo span{color:var(--muted);font-weight:400;font-size:14px;margin-left:12px;letter-spacing:0}
+.sync{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.sync.ok{color:var(--green)}.sync.err{color:var(--red)}
+nav{display:flex;gap:2px;margin-bottom:32px;border-bottom:1px solid var(--border)}
+nav button{background:none;border:none;border-bottom:2px solid transparent;padding:10px 18px;font-family:inherit;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;margin-bottom:-1px}
+nav button:hover{color:var(--text)}
+nav button.on{color:var(--text);border-bottom-color:var(--text)}
+.page{display:none}.page.on{display:block;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.sh h2{font-size:22px;font-weight:700;letter-spacing:-.3px}
+.sh p{color:var(--muted);font-size:13px;margin-top:2px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow);transition:box-shadow .15s}
+.card:hover{box-shadow:var(--shadow2)}
+.card-flat{box-shadow:none}.card-flat:hover{box-shadow:none}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;box-shadow:var(--shadow)}
+.stat-val{font-size:32px;font-weight:700;letter-spacing:-1px;line-height:1.1}
+.stat-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px}
+.stat-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.run-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:32px}
+.run-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden;cursor:pointer;transition:all .15s}
+.run-card:hover{box-shadow:var(--shadow2);border-color:var(--border2)}
+.run-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.run-card.colonizing::before{background:var(--amber)}
+.run-card.fruiting::before{background:var(--green)}
+.run-card.done::before{background:var(--muted)}
+.run-strain{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.run-id{font-size:13px;color:var(--muted);margin-top:2px}
+.run-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.run-meta dt{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.run-meta dd{font-size:14px;color:var(--text);margin-bottom:8px}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:.04em}
+.badge-colonizing{background:var(--amber-bg);color:var(--amber)}
+.badge-fruiting{background:var(--green-bg);color:var(--green)}
+.badge-done{background:var(--surface);color:var(--muted)}
+.badge-contam{background:var(--red-bg);color:var(--red)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:10px 12px;border-bottom:2px solid var(--border)}
+.tbl td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--surface)}
+.tbl .mono{font-family:'JetBrains Mono',monospace;font-size:13px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;border:1px solid var(--border);background:var(--white);color:var(--text)}
+.btn:hover{background:var(--surface);border-color:var(--border2)}
+.btn-primary{background:var(--text);color:var(--white);border-color:var(--text)}
+.btn-primary:hover{background:var(--text2)}
+.btn-sm{padding:5px 12px;font-size:13px}
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.form-group input,.form-group select,.form-group textarea{padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;background:var(--white);color:var(--text);outline:none;transition:border-color .15s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-actions{display:flex;gap:8px;margin-top:16px}
+.detail-back{font-size:14px;color:var(--muted);cursor:pointer;margin-bottom:16px;display:inline-flex;align-items:center;gap:4px}
+.detail-back:hover{color:var(--text)}
+.detail-header{margin-bottom:24px}
+.detail-header h2{font-size:28px;font-weight:700;letter-spacing:-.5px}
+.detail-header .badge{margin-left:12px;vertical-align:middle}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.detail-field dt{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.detail-field dd{font-size:15px;color:var(--text);margin-top:2px}
+.note-block{background:var(--surface);border-left:3px solid var(--border2);padding:16px 20px;border-radius:0 8px 8px 0;font-size:14px;color:var(--text2);line-height:1.7}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-icon{font-size:36px;margin-bottom:12px}
+.empty p{font-size:14px;max-width:360px;margin:0 auto}
+@media(max-width:768px){.app{padding:0 16px 60px}.stats{grid-template-columns:1fr 1fr}.run-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}nav{overflow-x:auto}nav button{white-space:nowrap;padding:10px 14px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">Mycelium Lab <span>Tim Hughes · Tucson AZ</span></div>
+  <div class="sync" id="sync">connecting...</div>
+</header>
+<nav id="nav">
+  <button class="on" onclick="go('dashboard')">Dashboard</button>
+  <button onclick="go('runs')">Runs</button>
+  <button onclick="go('harvest')">Harvest</button>
+  <button onclick="go('inventory')">Inventory</button>
+  <button onclick="go('contamination')">Contamination</button>
+  <button onclick="go('notes')">Notes</button>
+</nav>
+
+<div class="page on" id="pg-dashboard">
+  <div class="stats" id="stats-grid"></div>
+  <div class="sh"><div><h2>Active Runs</h2><p>Current grows at a glance</p></div></div>
+  <div class="run-grid" id="active-runs"></div>
+</div>
+
+<div class="page" id="pg-runs">
+  <div class="sh"><div><h2>All Runs</h2><p>Every grow from inoculation to harvest</p></div></div>
+  <div class="run-grid" id="all-runs"></div>
+  <div id="run-detail" style="display:none"></div>
+</div>
+
+<div class="page" id="pg-harvest">
+  <div class="sh">
+    <div><h2>Harvest Log</h2><p>Flush weights · dry totals · drying protocols</p></div>
+    <button class="btn btn-primary btn-sm" onclick="toggleEl('harvest-form')">+ Log Harvest</button>
+  </div>
+  <div class="form-card" id="harvest-form" style="display:none">
+    <div class="form-grid">
+      <div class="form-group"><label>Run</label><select id="h-run"></select></div>
+      <div class="form-group"><label>Flush #</label><input type="number" id="h-flush" value="1"></div>
+      <div class="form-group"><label>Date</label><input type="date" id="h-date"></div>
+      <div class="form-group"><label>Wet Weight (g)</label><input type="number" id="h-wet" step="0.1"></div>
+      <div class="form-group"><label>Dry Weight (g)</label><input type="number" id="h-dry" step="0.1"></div>
+      <div class="form-group"><label>Drying Method</label><input type="text" id="h-drying" placeholder="e.g. 6hrs at 153°F"></div>
+      <div class="form-group full"><label>Notes</label><textarea id="h-notes" placeholder="Morphology, timing, observations..."></textarea></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveHarvest()">Save</button>
+      <button class="btn" onclick="toggleEl('harvest-form')">Cancel</button>
+    </div>
+  </div>
+  <div id="harvest-table"></div>
+</div>
+
+<div class="page" id="pg-inventory">
+  <div class="sh"><div><h2>Inventory</h2><p>Spores · grain · substrate · supplies</p></div></div>
+  <div id="inv-spores"></div>
+  <div id="inv-grain" style="margin-top:24px"></div>
+  <div id="inv-substrate" style="margin-top:24px"></div>
+</div>
+
+<div class="page" id="pg-contamination">
+  <div class="sh">
+    <div><h2>Contamination Log</h2><p>Detection · diagnosis · lessons learned</p></div>
+    <button class="btn btn-primary btn-sm" onclick="toggleEl('cont-form')">+ Log Issue</button>
+  </div>
+  <div class="form-card" id="cont-form" style="display:none">
+    <div class="form-grid">
+      <div class="form-group"><label>Date</label><input type="date" id="c-date"></div>
+      <div class="form-group"><label>Run / Container</label><input type="text" id="c-run"></div>
+      <div class="form-group"><label>Phase</label><select id="c-phase"><option>Colonization</option><option>Fruiting</option><option>Between flushes</option></select></div>
+      <div class="form-group"><label>Agent</label><select id="c-agent"><option>Trichoderma (green)</option><option>Aspergillus (black)</option><option>Cobweb mold</option><option>Bacterial / wet rot</option><option>Unknown</option></select></div>
+      <div class="form-group"><label>Severity</label><select id="c-sev"><option>Minor</option><option>Moderate — spreading</option><option>Severe</option><option>Fatal — aborted</option></select></div>
+      <div class="form-group"><label>Outcome</label><select id="c-out"><option>Contained</option><option>Monitoring</option><option>Aborted run</option></select></div>
+      <div class="form-group full"><label>Description</label><textarea id="c-desc"></textarea></div>
+      <div class="form-group full"><label>Lessons</label><textarea id="c-lesson"></textarea></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveCont()">Save</button>
+      <button class="btn" onclick="toggleEl('cont-form')">Cancel</button>
+    </div>
+  </div>
+  <div id="cont-table"></div>
+</div>
+
+<div class="page" id="pg-notes">
+  <div class="sh"><div><h2>Grow Notes</h2><p>Observations · protocol changes · lessons</p></div></div>
+  <div id="notes-content"></div>
+</div>
+</div>
+
+<script>
+const SB_URL='https://qrjxkzdelmbwwjbvtnbb.supabase.co';
+const SB_KEY='sb_publishable_ZtXeM9uD-FWRbiD2-LzpAQ_Hjmva5Xi';
+const SB_USER='tim';
+const H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+
+async function sbGet(c){try{const r=await fetch(`${SB_URL}/rest/v1/grow_data?user_id=eq.${SB_USER}&category=eq.${c}`,{headers:H});const rows=await r.json();return rows.map(row=>({id:row.record_id,...row.data}))}catch(e){console.error('sbGet',c,e);return[]}}
+async function sbUpsert(c,rec){try{const rid=String(rec.id||Date.now());await fetch(`${SB_URL}/rest/v1/grow_data`,{method:'POST',headers:{...H,'Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({user_id:SB_USER,category:c,record_id:rid,data:rec,updated_at:new Date().toISOString()})})}catch(e){console.error('sbUpsert',c,e)}}
+function syncStatus(s){const el=document.getElementById('sync');if(s==='ok'){el.textContent='● synced';el.className='sync ok'}else if(s==='err'){el.textContent='● sync error';el.className='sync err'}else{el.textContent='⟳ syncing...';el.className='sync'}}
+
+const S={inoc:[],col:[],harv:[],cont:[],tubs:[],storage:[],inv:{spores:[],grain:[],substrate:[],tubs:[],consumables:[]}};
+
+function seedDefaults(){
+  if(!S.tubs.length){S.tubs=[
+    {id:'green',status:'active',strain:'B+',phase:'fruiting',spore:'ITW Batch 4685',cc:'4',grainbags:'1',subbags:'3',spawndate:'2025-11-28',fcdate:'2026-03-09',flush:'1',f1dry:'',drying:'6hrs at 153°F (testing vs APE 16hrs at 110°F)',notes:'Green Tub. 3x Boomr Bag, ¼" coco coir casing, 3:1 ratio. Old grain bag (1yr) — 101 day colonization. FC initiated Mar 9.'},
+    {id:'black-1',status:'active',strain:'Yeti',phase:'colonizing',spore:'ITW Batch 4695',cc:'4',grainbags:'1',subbags:'',spawndate:'2026-03-09',fcdate:'',flush:'1',f1dry:'',drying:'',notes:'Yellow dot bag. Room temp 2hr + 1min shake pre-inoc. Col. tent 68–74°F, dark, no air.'},
+    {id:'black-2',status:'active',strain:'Tidal Wave',phase:'colonizing',spore:'ITW Batch 4660',cc:'4',grainbags:'1',subbags:'',spawndate:'2026-03-09',fcdate:'',flush:'1',f1dry:'',drying:'',notes:'Blue dot bag. Port clogged — est. ~4cc into bag. Col. tent 68–74°F, dark, no air.'},
+    {id:'pink',status:'done',strain:'APE',phase:'done',spore:'ITW Batch 4696',cc:'3',grainbags:'1',subbags:'1',spawndate:'2025-11-28',fcdate:'',flush:'2',f1dry:'~79',drying:'16hrs at 110°F',notes:'F1: ~79g dry. F2: Trichoderma — aborted Mar 9. Tub deconned.'}
+  ]}
+  if(!S.cont.length){S.cont=[{id:200,date:'2026-03-09',run:'APE-01 · Pink Tub',phase:'Between flushes',agent:'Trichoderma (green)',severity:'Moderate — spreading',outcome:'Aborted run',desc:'Green mold on substrate 3 days into F2. Moderate, actively spreading.',lesson:'Monitor between-flush transition closely. Have decon protocol ready before F2.'}]}
+  if(!S.inv.spores.length){S.inv.spores=[
+    {id:1,strain:'B+',vendor:'Inoculate the World',batch:'4685',total:'10',remain:'6',status:'Active',notes:'4cc used in B+-01.'},
+    {id:2,strain:'APE',vendor:'Inoculate the World',batch:'4696',total:'10',remain:'7',status:'Active',notes:'3cc used in APE-01.'},
+    {id:3,strain:'Tidal Wave',vendor:'Inoculate the World',batch:'4660',total:'10',remain:'6',status:'Active',notes:'Blue dot. 4cc used in TW-01. Port clogged.'},
+    {id:4,strain:'Yeti',vendor:'Inoculate the World',batch:'4695',total:'10',remain:'6',status:'Active',notes:'Yellow dot. 4cc used in Yeti-01.'},
+    {id:5,strain:'Golden Teacher',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'8',status:'Stored',notes:'~2yr. 2cc used.'},
+    {id:6,strain:'Tidal Wave',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'7',status:'Suspect',notes:'3+ yrs. Test before committing grain.'},
+    {id:7,strain:'Natal Super Strength',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'7',status:'Stored',notes:'P. natalensis. ~1yr.'},
+    {id:8,strain:'Stargazer',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',status:'Stored',notes:'Untouched.'},
+    {id:9,strain:'Huautla',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',status:'Suspect',notes:'3+ yrs. Test first.'},
+    {id:10,strain:'Syzygy',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',status:'Stored',notes:''},
+    {id:11,strain:'B+',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',status:'Stored',notes:'Backup B+ line.'},
+    {id:12,strain:'APE',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',status:'Stored',notes:'Backup APE line.'}
+  ]}
+  if(!S.inv.grain.length){S.inv.grain=[{id:1,type:'WBS 1lb (North Spore)',qty:'8',status:'Ready',notes:'Pre-sterilized. ~1yr old.'}]}
+  if(!S.inv.substrate.length){S.inv.substrate=[
+    {id:1,product:'Boomr Bag 3lb',qty:'13',vendor:'North Spore',notes:'Manure-based bulk substrate.'},
+    {id:2,product:'Myco Coco 5lb',qty:'2',vendor:'North Spore',notes:'Coir casing layer.'},
+    {id:3,product:'Myco Coco 1lb',qty:'2',vendor:'North Spore',notes:'Coir casing, small format.'}
+  ]}
+}
+
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('on'));
+  const pg=document.getElementById('pg-'+id);if(pg)pg.classList.add('on');
+  const map={dashboard:0,runs:1,harvest:2,inventory:3,contamination:4,notes:5};
+  const btns=document.querySelectorAll('nav button');
+  if(map[id]!==undefined&&btns[map[id]])btns[map[id]].classList.add('on');
+  if(id==='runs'){document.getElementById('all-runs').style.display='';document.getElementById('run-detail').style.display='none'}
+  window.scrollTo(0,0);
+}
+function toggleEl(id){const el=document.getElementById(id);if(el)el.style.display=el.style.display==='none'?'block':'none'}
+
+function renderDashboard(){
+  const active=S.tubs.filter(t=>t.status==='active');
+  const col=active.filter(t=>t.phase==='colonizing').length;
+  const fr=active.filter(t=>t.phase==='fruiting').length;
+  const logged=S.harv.reduce((s,h)=>s+(parseFloat(h.dry)||0),0);
+  const ape=S.tubs.find(t=>t.strain==='APE')?.f1dry||'~79';
+  document.getElementById('stats-grid').innerHTML=`
+    <div class="stat" onclick="go('runs')" style="cursor:pointer"><div class="stat-val">${active.length}</div><div class="stat-label">Active Runs</div><div class="stat-sub">${col} colonizing · ${fr} fruiting</div></div>
+    <div class="stat" onclick="go('runs')" style="cursor:pointer"><div class="stat-val">${S.tubs.length}</div><div class="stat-label">Total Runs</div><div class="stat-sub">All time</div></div>
+    <div class="stat" onclick="go('harvest')" style="cursor:pointer"><div class="stat-val">${ape}g</div><div class="stat-label">Dry On Hand</div><div class="stat-sub">APE F1${logged?' + '+logged+'g logged':''}</div></div>
+    <div class="stat" onclick="go('inventory')" style="cursor:pointer"><div class="stat-val">${S.inv.spores.length}</div><div class="stat-label">Spore Syringes</div><div class="stat-sub">${S.inv.grain[0]?.qty||'?'} grain bags</div></div>
+    <div class="stat" onclick="go('contamination')" style="cursor:pointer"><div class="stat-val">${S.cont.length}</div><div class="stat-label">Contam Events</div><div class="stat-sub">${S.cont.length?S.cont[0].agent:'None'}</div></div>`;
+  document.getElementById('active-runs').innerHTML=active.map(t=>`
+    <div class="run-card ${t.phase}" onclick="showRunDetail('${t.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:start">
+        <div><div class="run-strain">${t.strain}</div><div class="run-id">${t.id} · ${t.spore}</div></div>
+        <span class="badge badge-${t.phase}">${t.phase}</span>
+      </div>
+      <div class="run-meta">
+        <div><dt>Inoculated</dt><dd>${t.spawndate||'—'}</dd></div>
+        <div><dt>CC Used</dt><dd>${t.cc||'—'}</dd></div>
+        <div><dt>FC Date</dt><dd>${t.fcdate||'—'}</dd></div>
+        <div><dt>Flush</dt><dd>${t.flush||'1'}</dd></div>
+      </div>
+      ${t.notes?`<div class="note-block" style="margin-top:12px;font-size:13px">${t.notes}</div>`:''}
+    </div>`).join('');
+}
+
+function renderRuns(){
+  document.getElementById('all-runs').innerHTML=S.tubs.map(t=>`
+    <div class="run-card ${t.phase}" onclick="showRunDetail('${t.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:start">
+        <div><div class="run-strain">${t.strain}</div><div class="run-id">${t.id} · ${t.spore}</div></div>
+        <span class="badge badge-${t.phase}">${t.phase}</span>
+      </div>
+      <div class="run-meta">
+        <div><dt>Inoculated</dt><dd>${t.spawndate||'—'}</dd></div>
+        <div><dt>Phase</dt><dd>${t.phase}</dd></div>
+        <div><dt>Dry (F1)</dt><dd>${t.f1dry||'—'}</dd></div>
+        <div><dt>Drying</dt><dd>${t.drying||'—'}</dd></div>
+      </div>
+    </div>`).join('');
+}
+
+function showRunDetail(id){
+  const t=S.tubs.find(r=>r.id===id);if(!t)return;
+  go('runs');
+  document.getElementById('all-runs').style.display='none';
+  const d=document.getElementById('run-detail');d.style.display='block';
+  d.innerHTML=`
+    <div class="detail-back" onclick="closeRunDetail()">← Back to all runs</div>
+    <div class="detail-header"><h2>${t.strain} <span class="badge badge-${t.phase}">${t.phase}</span></h2></div>
+    <div class="detail-grid">
+      <div class="detail-field"><dt>Tub</dt><dd>${t.id}</dd></div>
+      <div class="detail-field"><dt>Spore Source</dt><dd>${t.spore}</dd></div>
+      <div class="detail-field"><dt>CC Used</dt><dd>${t.cc}</dd></div>
+      <div class="detail-field"><dt>Grain Bags</dt><dd>${t.grainbags}</dd></div>
+      <div class="detail-field"><dt>Substrate Bags</dt><dd>${t.subbags||'—'}</dd></div>
+      <div class="detail-field"><dt>Inoculated</dt><dd>${t.spawndate}</dd></div>
+      <div class="detail-field"><dt>FC Date</dt><dd>${t.fcdate||'—'}</dd></div>
+      <div class="detail-field"><dt>Current Flush</dt><dd>${t.flush}</dd></div>
+      <div class="detail-field"><dt>F1 Dry Weight</dt><dd>${t.f1dry||'—'}</dd></div>
+      <div class="detail-field"><dt>Drying Protocol</dt><dd>${t.drying||'—'}</dd></div>
+    </div>
+    ${t.notes?`<div class="note-block">${t.notes}</div>`:''}`;
+}
+function closeRunDetail(){document.getElementById('all-runs').style.display='';document.getElementById('run-detail').style.display='none'}
+
+function renderHarvest(){
+  const sel=document.getElementById('h-run');
+  sel.innerHTML=S.tubs.map(t=>`<option value="${t.id}">${t.strain} — ${t.id}</option>`).join('');
+  document.getElementById('h-date').value=new Date().toISOString().split('T')[0];
+  if(!S.harv.length){document.getElementById('harvest-table').innerHTML=`<div class="empty"><div class="empty-icon">⚖️</div><p>No harvests logged yet. Log your first flush to start tracking yields.</p></div>`;return}
+  document.getElementById('harvest-table').innerHTML=`<div class="card card-flat" style="overflow-x:auto"><table class="tbl"><thead><tr><th>Date</th><th>Run</th><th>Flush</th><th>Wet</th><th>Dry</th><th>Drying</th><th>Notes</th></tr></thead><tbody>${S.harv.map(h=>`<tr><td class="mono">${h.date||''}</td><td>${h.run||''}</td><td>${h.flush||''}</td><td class="mono">${h.wet||'—'}</td><td class="mono" style="font-weight:600">${h.dry||'—'}</td><td>${h.drying||'—'}</td><td style="max-width:200px;color:var(--text2)">${h.notes||''}</td></tr>`).join('')}</tbody></table></div>`;
+}
+async function saveHarvest(){
+  const e={id:Date.now(),date:document.getElementById('h-date').value,run:document.getElementById('h-run').value,flush:document.getElementById('h-flush').value,wet:document.getElementById('h-wet').value,dry:document.getElementById('h-dry').value,drying:document.getElementById('h-drying').value,notes:document.getElementById('h-notes').value};
+  S.harv.push(e);await sbUpsert('harv',e);toggleEl('harvest-form');renderHarvest();renderDashboard();
+}
+
+function renderInventory(){
+  document.getElementById('inv-spores').innerHTML=`<div class="sh"><div><h3 style="font-size:16px;font-weight:600">Spore Syringes</h3></div></div><div class="card card-flat" style="overflow-x:auto"><table class="tbl"><thead><tr><th>Strain</th><th>Vendor</th><th>Batch</th><th>Remain</th><th>Status</th><th>Notes</th></tr></thead><tbody>${S.inv.spores.map(s=>`<tr><td style="font-weight:600">${s.strain}</td><td>${s.vendor}</td><td class="mono">${s.batch||'—'}</td><td class="mono">${s.remain}/${s.total}cc</td><td><span class="badge ${s.status==='Active'?'badge-fruiting':s.status==='Suspect'?'badge-contam':''}" style="${s.status==='Stored'?'background:var(--surface);color:var(--muted)':''}">${s.status}</span></td><td style="max-width:220px;color:var(--text2);font-size:13px">${s.notes}</td></tr>`).join('')}</tbody></table></div>`;
+  document.getElementById('inv-grain').innerHTML=`<div class="sh"><div><h3 style="font-size:16px;font-weight:600">Grain Bags</h3></div></div><div class="card card-flat" style="overflow-x:auto"><table class="tbl"><thead><tr><th>Type</th><th>Qty</th><th>Status</th><th>Notes</th></tr></thead><tbody>${S.inv.grain.map(g=>`<tr><td style="font-weight:600">${g.type}</td><td class="mono">${g.qty}</td><td>${g.status}</td><td style="color:var(--text2)">${g.notes}</td></tr>`).join('')}</tbody></table></div>`;
+  document.getElementById('inv-substrate').innerHTML=`<div class="sh"><div><h3 style="font-size:16px;font-weight:600">Substrate</h3></div></div><div class="card card-flat" style="overflow-x:auto"><table class="tbl"><thead><tr><th>Product</th><th>Qty</th><th>Vendor</th><th>Notes</th></tr></thead><tbody>${S.inv.substrate.map(s=>`<tr><td style="font-weight:600">${s.product}</td><td class="mono">${s.qty}</td><td>${s.vendor}</td><td style="color:var(--text2)">${s.notes}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function renderCont(){
+  if(!S.cont.length){document.getElementById('cont-table').innerHTML=`<div class="empty"><div class="empty-icon">✓</div><p>No contamination events. Clean grows so far.</p></div>`;return}
+  document.getElementById('cont-table').innerHTML=S.cont.map(c=>`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:12px">
+        <div><div style="font-weight:600;font-size:16px">${c.run||''}</div><div style="font-size:13px;color:var(--muted)">${c.date||''} · ${c.phase||''}</div></div>
+        <span class="badge badge-contam">${c.severity||''}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div><span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Agent</span><br>${c.agent}</div>
+        <div><span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Outcome</span><br>${c.outcome}</div>
+      </div>
+      ${c.desc?`<div class="note-block" style="margin-bottom:8px">${c.desc}</div>`:''}
+      ${c.lesson?`<div class="note-block" style="border-left-color:var(--amber)"><strong style="color:var(--amber)">Lesson:</strong> ${c.lesson}</div>`:''}
+    </div>`).join('');
+}
+async function saveCont(){
+  const e={id:Date.now(),date:document.getElementById('c-date').value,run:document.getElementById('c-run').value,phase:document.getElementById('c-phase').value,agent:document.getElementById('c-agent').value,severity:document.getElementById('c-sev').value,outcome:document.getElementById('c-out').value,desc:document.getElementById('c-desc').value,lesson:document.getElementById('c-lesson').value};
+  S.cont.push(e);await sbUpsert('cont',e);toggleEl('cont-form');renderCont();renderDashboard();
+}
+
+function renderNotes(){
+  const notes=[
+    {title:'Drying Protocol Comparison',content:'APE F1: 16 hours at 110°F — standard low-and-slow. Cracker dry.\nB+ F1: Testing 6 hours at 153°F — shorter/hotter. Comparing dryness and potency.'},
+    {title:'Bag Age & Colonization',content:'B+-01 took 101 days — grain bag was ~1yr old. Fresh bags should hit 45–60 days. Current bags (Yeti, TW, Stargazer) also ~1yr old.'},
+    {title:'Dot Color Convention',content:'Yeti → Yellow dot\nTidal Wave → Blue dot\nStick to these colors for future runs.'},
+    {title:'Port Clog Issue',content:'TW-01 injection port clogged. Some spore solution lost. Est. ~4cc into bag. Watch for slow/patchy colonization.'},
+    {title:'Pre-Inoculation Prep',content:'New protocol starting with Yeti-01/TW-01: room temp 2 hours, shake 1 minute before injection.'},
+    {title:'APE Potency',content:'PurityTestKits reagent: ~3.0% / 30 mg/g. Well above average. Lower starting dose needed.'},
+    {title:'Equipment & Costs',content:'$800–1000 total invested. Grain mill underperforming — need replacement. All other equipment reusable — cost per gram drops every flush.'}
+  ];
+  document.getElementById('notes-content').innerHTML=notes.map(n=>`<div class="card"><div style="font-weight:600;font-size:15px;margin-bottom:8px">${n.title}</div><div style="color:var(--text2);font-size:14px;line-height:1.7;white-space:pre-line">${n.content}</div></div>`).join('');
+}
+
+async function init(){
+  syncStatus('loading');
+  try{
+    for(const c of['inoc','col','harv','cont','tubs','storage']){const rows=await sbGet(c);if(rows.length)S[c]=rows}
+    for(const k of['spores','grain','substrate','tubs','consumables']){const rows=await sbGet('inv_'+k);if(rows.length)S.inv[k]=rows}
+    syncStatus('ok');
+  }catch(e){syncStatus('err')}
+  seedDefaults();
+  renderDashboard();renderRuns();renderHarvest();renderInventory();renderCont();renderNotes();
+}
+init();
+</script>
+</body>
+</html>
