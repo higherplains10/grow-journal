@@ -543,7 +543,7 @@ select option{background:var(--s2);}
   <div class="wizard-page active" id="wp-1">
     <div class="card"><div class="card-title">Strain & Spore Selection</div>
       <div class="fg fg3">
-        <div class="fitem"><label>Select Strain</label><select id="nb-spore" onchange="autoFillSpore()"><option value="">Choose...</option><option value="b+|ITW|7">B+ (ITW) — 7cc</option><option value="ape|ITW|7">APE (ITW) — 7cc</option><option value="tidalwave|ITW|10">Tidal Wave (ITW) — 10cc</option><option value="yeti|ITW|10">Yeti (ITW) — 10cc</option><option value="gt|PNW|8">Golden Teacher (PNW) — 8cc</option><option value="natal|PNW|7">Natal Super Strength (PNW) — 7cc</option><option value="stargazer|PNW|10">Stargazer (PNW) — 10cc</option><option value="syzygy|PNW|10">Syzygy (PNW) — 10cc</option><option value="huautla|Unknown|10">Huautla (Unknown) — 10cc</option></select></div>
+        <div class="fitem"><label>Select Strain</label><select id="nb-spore" onchange="autoFillSpore()"><option value="">Choose...</option><option value="b+|ITW|7">B+ (ITW) — 7cc</option><option value="ape|ITW|7">APE (ITW) — 7cc</option><option value="tidalwave|ITW|10">Tidal Wave (ITW) — 10cc</option><option value="yeti|ITW|10">Yeti (ITW) — 10cc</option><option value="gt|PNW|8">Golden Teacher (PNW) — 8cc</option><option value="natal|PNW|7">Natal Super Strength (PNW) — 7cc</option><option value="stargazer|PNW|6">Stargazer (PNW) — 6cc</option><option value="syzygy|PNW|10">Syzygy (PNW) — 10cc</option><option value="huautla|Unknown|10">Huautla (Unknown) — 10cc</option></select></div>
         <div class="fitem"><label>CC to Use</label><input type="number" step="0.5" id="nb-cc" placeholder="3–4" min="1" max="10" oninput="autoFillSpore()"></div>
         <div class="fitem"><label>Inoculation Date</label><input type="date" id="nb-idate"></div>
         <div class="fitem full" id="spore-preview" style="display:none"><div style="background:var(--s2);border:1px solid var(--border2);padding:10px;font-size:11px;color:var(--text2);">After this run: <span id="nb-remain" style="color:var(--amber2)"></span>cc remaining</div></div>
@@ -938,7 +938,9 @@ async function sbSaveArray(category, arr) {
 }
 
 async function sbLoadAll() {
-  const categories = ['inoc','col','fruit','harv','cont','tubs','storage','depletion',
+  // DB category name -> S state key mapping (where they differ)
+  const catToKey = {'fruiting':'fruit','harvest':'harv'};
+  const categories = ['inoc','col','fruiting','harvest','cont','tubs','storage','depletion',
     'inv_spores','inv_grain','inv_substrate','inv_tubs','inv_consumables'];
   showSyncStatus('loading');
   try {
@@ -948,7 +950,8 @@ async function sbLoadAll() {
         const key = cat.replace('inv_','');
         if(S.inv[key] !== undefined) S.inv[key] = rows;
       } else {
-        if(S[cat] !== undefined) S[cat] = rows;
+        const key = catToKey[cat] || cat;
+        if(S[key] !== undefined) S[key] = rows;
       }
     }
     showSyncStatus('ok');
@@ -958,11 +961,14 @@ async function sbLoadAll() {
 }
 
 async function save() {
+  // Map S state keys to DB category names where they differ
+  const keyToCat = {'fruit':'fruiting','harv':'harvest'};
   showSyncStatus('saving');
   try {
     const toSave = ['inoc','col','fruit','harv','cont','tubs','storage','depletion'];
-    for(const cat of toSave){
-      await sbSaveArray(cat, S[cat]||[]);
+    for(const key of toSave){
+      const cat = keyToCat[key] || key;
+      await sbSaveArray(cat, S[key]||[]);
     }
     for(const key of Object.keys(S.inv)){
       await sbSaveArray('inv_'+key, S.inv[key]||[]);
@@ -1374,7 +1380,7 @@ function seedInventory(){
     {id:4,strain:'Yeti',species:'P. cubensis',vendor:'Inoculate the World',batch:'4695',total:'10',remain:'6',storage:'Fridge (dark)',status:'Active — in use',notes:'~1yr. 4cc used in Run-02 · Yeti-01 Mar 9, 2026. Room temp 2hr + 1min shake pre-inoculation. 6cc remaining.'},
     {id:5,strain:'Golden Teacher',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'8',storage:'Fridge (dark)',status:'Stored — available',notes:'~2yr. 2cc used. Successful grow.'},
     {id:6,strain:'Natal Super Strength',species:'P. natalensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'7',storage:'Fridge (dark)',status:'Stored — available',notes:'~2yr. 3cc used. P. natalensis — different protocol. Not compatible with standard cubensis monotub setup.'},
-    {id:7,strain:'Stargazer',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',storage:'Fridge (dark)',status:'Stored — available',notes:'~2yr. Never used.'},
+    {id:7,strain:'Stargazer',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'6',storage:'Fridge (dark)',status:'Active — in use',notes:'~2yr. 4cc used in Run-04 · SGZ-01 Mar 10, 2026. Black Tub 3. 6cc remaining.'},
     {id:8,strain:'Syzygy',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',storage:'Fridge (dark)',status:'Stored — available',notes:'~2yr. Never used.'},
     {id:9,strain:'Huautla',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',storage:'Fridge (dark)',status:'Suspect / questionable',notes:'3+ yrs. Same era as failed Tidal Wave grow. Test inoculation before committing grain.'},
     {id:10,strain:'Tidal Wave',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',storage:'Fridge (dark)',status:'Suspect / questionable',notes:'3+ yrs. Previous grow had zero potency. Consider disposal.'},
@@ -1410,7 +1416,7 @@ function seedInventory(){
     S.tubs.push({id:'black-2',status:'active',strain:'Tidal Wave (ITW)',spore:'ITW Batch 4660',cc:'4',grainbags:'1',subbags:'',spawndate:'2026-03-09',fcdate:'',flush:'1',phase:'colonizing',f1wet:'',f1dry:'',f2wet:'',f2dry:'',f3wet:'',f3dry:'',notes:'Run-03 · TW-01 (ITW). Blue dot bag. Room temp 2hr + 1min shake pre-inoculation. Port clogged during injection — some lost to sink, est. ~4cc into bag. Colonization tent 68–74°F, dark, no air.'});
   }
   if(!S.tubs.find(t=>t.id==='green')){
-    S.tubs.push({id:'green',status:'active',strain:'B+',spore:'ITW Batch 4685',cc:'4',grainbags:'1',subbags:'3',spawndate:'2025-11-28',fcdate:'2026-03-09',flush:'1',phase:'colonizing',f1wet:'',f1dry:'',f2wet:'',f2dry:'',f3wet:'',f3dry:'',notes:'Grain bag broken up, loose mix with 3x Boomr Bag. ¼" Myco Coco coir casing. Steam pasteurized. Filter patch lid. 3:1 ratio. No compaction throughout. Old grain bag (1yr at inoculation) — 101 day colonization.'});
+    S.tubs.push({id:'green',status:'active',strain:'B+',spore:'ITW Batch 4685',cc:'4',grainbags:'1',subbags:'3',spawndate:'2025-11-28',fcdate:'2026-03-20',flush:'1',phase:'second flush rest',f1wet:'1472',f1dry:'',f2wet:'',f2dry:'',f3wet:'',f3dry:'',notes:'Grain bag broken up, loose mix with 3x Boomr Bag. ¼" Myco Coco coir casing. Steam pasteurized. Filter patch lid. 3:1 ratio. No compaction throughout. Old grain bag (1yr at inoculation) — 101 day colonization. Pinned Mar 20 (est). Harvested Mar 25. No side pinning. Minimal bruising pre-dryer, visible post-dryer. Dense central cluster. F2 pins visible at harvest. Wet weight: 1472g. Dry weight pending. Post-harvest: light hydration, returned to tent Mar 25.'});
   }
   // Seed pink tub as cleaning
   if(!S.tubs.find(t=>t.id==='pink')){
@@ -1504,7 +1510,7 @@ function renderAll() {
           <option value="tw">Tidal Wave</option>
           <option value="bp">B+</option>
           <option value="gt">Golden Teacher</option>
-          <option value="gt">Stargazer</option>
+          <option value="sgz">Stargazer</option>
           <option value="nss">Natal Super Strength</option>
         </select>
       </div>
@@ -1796,6 +1802,7 @@ const STRAIN_POTENCY = {
   tw: { base: 1.05, label: 'Tidal Wave' },
   bp: { base: 0.55, label: 'B+' },
   gt: { base: 0.5, label: 'Golden Teacher' },
+  sgz: { base: 0.75, label: 'Stargazer' },
   nss: { base: 1.1, label: 'Natal Super Strength' },
 };
 
