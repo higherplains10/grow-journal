@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///Users/timothyhughes/Downloads/index_5.html -->
+<!-- saved from url=(0050)file:///Users/timothyhughes/Downloads/index_6.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,8 +34,8 @@ nav{flex:1;padding:8px 0;}
 .sl{font-size:13.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
 .sv{font-size:18px;font-weight:500;color:var(--amber2);}
 .main{overflow-y:auto;background:transparent;position:relative;z-index:2;}
-.pg{display:none;padding:60px 70px;animation:fadeIn .2s ease;min-height:100%;}
-.pg.on{display:block;}
+.pg{display:none;padding:60px 70px;animation:fadeIn .2s ease;min-height:100%;background:var(--bg);}
+.pg.on{display:block;position:relative;z-index:5;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:translateY(0);}}
 .ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px;padding-bottom:14px;border-bottom:1px solid var(--border);position:relative;}
 .ph::after{content:"";position:absolute;bottom:-1px;left:0;width:60px;height:1px;background:var(--amber);}
@@ -222,6 +222,7 @@ select option{background:var(--s2);}
       <optgroup label="Dashboard"><option value="overview">Overview</option><option value="visualizer">Grow Visualizer</option><option value="blog">Grow Blog</option></optgroup>
       <optgroup label="Grow Log"><option value="builder">▶ Start New Run</option><option value="inoculation">Inoculation</option><option value="colonization">Colonization</option><option value="fruiting">Fruiting</option><option value="harvest">Harvest</option><option value="contamination">Contamination</option></optgroup>
       <optgroup label="Supply &amp; Storage"><option value="tubs">Tub Tracker</option><option value="storage">Dry Storage</option><option value="inventory">Inventory</option></optgroup>
+      <optgroup label="Science"><option value="analytics">Yield Analytics</option><option value="genetics">Genetics Tree</option><option value="contamination-tracker">Contam Patterns</option><option value="potency">Potency Estimator</option><option value="environment">Environment Log</option><option value="trips">Trip Reports</option></optgroup>
     </select>
   </div>
   <div class="sb-run"><div class="sb-run-label">Active Runs (3)</div><div class="sb-run-name">Run-01 · B+-01 · Green Tub</div><div class="sb-run-strain">Run-02 · Yeti-01 · Yellow dot · Col. tent</div><div class="sb-run-strain" style="margin-top:2px">Run-03 · TW-01 (ITW) · Blue dot · Col. tent</div></div>
@@ -893,7 +894,7 @@ select option{background:var(--s2);}
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="document.getElementById(&#39;lightbox&#39;).classList.remove(&#39;open&#39;)">
   <button class="lightbox-close">✕</button>
-  <img id="lb-img" src="file:///Users/timothyhughes/Downloads/index_5.html" alt="">
+  <img id="lb-img" src="file:///Users/timothyhughes/Downloads/index_6.html" alt="">
   <div class="lightbox-caption" id="lb-cap"></div>
 </div>
 
