@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///Users/timothyhughes/Downloads/index_3.html -->
+<!-- saved from url=(0050)file:///Users/timothyhughes/Downloads/index_4.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -270,11 +270,11 @@ select option{background:var(--s2);}
     <div class="oc"><div class="ov">~79</div><div class="ou">grams dry</div><div class="od">APE F1 On Hand</div></div>
     <div class="oc"><div class="ov" id="ov-eff">—</div><div class="ou">BE %</div><div class="od">Biol. Efficiency</div></div>
   </div>
-  <div class="timeline" id="phase-timeline"><div class="tphase done" onclick="show(&#39;inoculation&#39;)"><div class="tp-num">01 ✓</div><div class="tp-name">Inoculation</div></div><div class="tphase done" onclick="show(&#39;colonization&#39;)"><div class="tp-num">02 ✓</div><div class="tp-name">Colonization</div></div><div class="tphase " onclick="show(&#39;fruiting&#39;)"><div class="tp-num">03 </div><div class="tp-name">Fruiting</div></div><div class="tphase done" onclick="show(&#39;harvest&#39;)"><div class="tp-num">04 ✓</div><div class="tp-name">Harvest</div></div></div>
+  <div class="timeline" id="phase-timeline"><div class="tphase done" onclick="show(&#39;inoculation&#39;)"><div class="tp-num">01 ✓</div><div class="tp-name">Inoculation</div></div><div class="tphase done" onclick="show(&#39;colonization&#39;)"><div class="tp-num">02 ✓</div><div class="tp-name">Colonization</div></div><div class="tphase current" onclick="show(&#39;fruiting&#39;)"><div class="tp-num">03 </div><div class="tp-name">Fruiting</div></div><div class="tphase " onclick="show(&#39;harvest&#39;)"><div class="tp-num">04 </div><div class="tp-name">Harvest</div></div></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
     <div class="card">
       <div class="card-title">Yield by Flush</div>
-      <div class="bchart" id="yield-chart"><div class="bwrap"><div class="bval">0.0g</div><div class="bar" style="height:2px"></div><div class="blabel">F1</div></div></div>
+      <div class="bchart" id="yield-chart"><div style="color:var(--muted);font-size:11px;align-self:center;width:100%;text-align:center;">Watching for first flush.</div></div>
     </div>
     <div class="card">
       <div class="card-title">Run-01 — B+ Configuration</div>
@@ -543,7 +543,7 @@ select option{background:var(--s2);}
   <div class="wizard-page active" id="wp-1">
     <div class="card"><div class="card-title">Strain &amp; Spore Selection</div>
       <div class="fg fg3">
-        <div class="fitem"><label>Select Strain</label><select id="nb-spore" onchange="autoFillSpore()"><option value="">Choose...</option><option value="b+|ITW|7">B+ (ITW) — 7cc</option><option value="ape|ITW|7">APE (ITW) — 7cc</option><option value="tidalwave|ITW|10">Tidal Wave (ITW) — 10cc</option><option value="yeti|ITW|10">Yeti (ITW) — 10cc</option><option value="gt|PNW|8">Golden Teacher (PNW) — 8cc</option><option value="natal|PNW|7">Natal Super Strength (PNW) — 7cc</option><option value="stargazer|PNW|6">Stargazer (PNW) — 6cc</option><option value="syzygy|PNW|10">Syzygy (PNW) — 10cc</option><option value="huautla|Unknown|10">Huautla (Unknown) — 10cc</option></select></div>
+        <div class="fitem"><label>Select Strain</label><select id="nb-spore" onchange="autoFillSpore()"><option value="">Choose...</option><option value="b+|ITW|7">B+ (ITW) — 7cc</option><option value="ape|ITW|7">APE (ITW) — 7cc</option><option value="tidalwave|ITW|10">Tidal Wave (ITW) — 10cc</option><option value="yeti|ITW|10">Yeti (ITW) — 10cc</option><option value="gt|PNW|8">Golden Teacher (PNW) — 8cc</option><option value="natal|PNW|7">Natal Super Strength (PNW) — 7cc</option><option value="stargazer|PNW|10">Stargazer (PNW) — 10cc</option><option value="syzygy|PNW|10">Syzygy (PNW) — 10cc</option><option value="huautla|Unknown|10">Huautla (Unknown) — 10cc</option></select></div>
         <div class="fitem"><label>CC to Use</label><input type="number" step="0.5" id="nb-cc" placeholder="3–4" min="1" max="10" oninput="autoFillSpore()"></div>
         <div class="fitem"><label>Inoculation Date</label><input type="date" id="nb-idate"></div>
         <div class="fitem full" id="spore-preview" style="display:none"><div style="background:var(--s2);border:1px solid var(--border2);padding:10px;font-size:11px;color:var(--text2);">After this run: <span id="nb-remain" style="color:var(--amber2)"></span>cc remaining</div></div>
@@ -613,7 +613,7 @@ select option{background:var(--s2);}
     </div>
     <div class="fa"><button class="btn" onclick="addEntry(&#39;inoc&#39;)">Save</button><button class="btn btn-ghost" onclick="toggleForm(&#39;f-inoc&#39;)">Cancel</button></div>
   </div>
-  <div id="t-inoc"><table class="tbl"><thead><tr><th>Date</th><th>Bag</th><th>Grain</th><th>Wt(g)</th><th>Age</th><th>Steril</th><th>Inoculant</th><th>CC</th><th>Env</th><th>Notes</th><th></th></tr></thead><tbody><tr><td style="max-width:140px;white-space:pre-wrap">2025-11-28</td><td style="max-width:140px;white-space:pre-wrap">APE · Run-APE-01 · Bag-01</td><td style="max-width:140px;white-space:pre-wrap">WBS</td><td style="max-width:140px;white-space:pre-wrap">454</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized (unknown age)</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized bag</td><td style="max-width:140px;white-space:pre-wrap">Spore Syringe</td><td style="max-width:140px;white-space:pre-wrap">3</td><td style="max-width:140px;white-space:pre-wrap">Still Air Box (SAB)</td><td style="max-width:140px;white-space:pre-wrap">APE ITW Batch 4696. Pink shotgun tub run. Same day as B+ inoculation.</td><td><button class="del" onclick="deleteEntry(&#39;inoc&#39;,100)">✕</button></td></tr><tr><td style="max-width:140px;white-space:pre-wrap">2025-11-28</td><td style="max-width:140px;white-space:pre-wrap">B+ · Run-01 · B+-01 · Bag-01</td><td style="max-width:140px;white-space:pre-wrap">WBS</td><td style="max-width:140px;white-space:pre-wrap">454</td><td style="max-width:140px;white-space:pre-wrap">1yr old pre-sterilized</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized bag</td><td style="max-width:140px;white-space:pre-wrap">Spore Syringe</td><td style="max-width:140px;white-space:pre-wrap">4</td><td style="max-width:140px;white-space:pre-wrap">Still Air Box (SAB)</td><td style="max-width:140px;white-space:pre-wrap">B+ ITW Batch 4685. Green tub run. Grain bag was 1yr old — likely cause of 101-day colonization.</td><td><button class="del" onclick="deleteEntry(&#39;inoc&#39;,101)">✕</button></td></tr><tr><td style="max-width:140px;white-space:pre-wrap">2026-03-09</td><td style="max-width:140px;white-space:pre-wrap">Yeti · Run-02 · Yeti-01 · Yellow dot</td><td style="max-width:140px;white-space:pre-wrap">WBS</td><td style="max-width:140px;white-space:pre-wrap">454</td><td style="max-width:140px;white-space:pre-wrap">~1yr pre-sterilized (North Spore)</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized bag</td><td style="max-width:140px;white-space:pre-wrap">Spore Syringe</td><td style="max-width:140px;white-space:pre-wrap">4</td><td style="max-width:140px;white-space:pre-wrap">Still Air Box (SAB)</td><td style="max-width:140px;white-space:pre-wrap">Yeti ITW Batch 4695. Room temp 2hr + 1min shake before inoculation. Yellow dot ID marker on bag. 6cc remaining in syringe. Colonization tent 68–74°F, dark, no air, no break and shake.</td><td><button class="del" onclick="deleteEntry(&#39;inoc&#39;,102)">✕</button></td></tr><tr><td style="max-width:140px;white-space:pre-wrap">2026-03-09</td><td style="max-width:140px;white-space:pre-wrap">Tidal Wave · Run-03 · TW-01 (ITW) · Blue dot</td><td style="max-width:140px;white-space:pre-wrap">WBS</td><td style="max-width:140px;white-space:pre-wrap">454</td><td style="max-width:140px;white-space:pre-wrap">~1yr pre-sterilized (North Spore)</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized bag</td><td style="max-width:140px;white-space:pre-wrap">Spore Syringe</td><td style="max-width:140px;white-space:pre-wrap">4</td><td style="max-width:140px;white-space:pre-wrap">Still Air Box (SAB)</td><td style="max-width:140px;white-space:pre-wrap">Tidal Wave ITW Batch 4660. Room temp 2hr + 1min shake before inoculation. Blue dot ID marker on bag. Port clogged during injection — some spore solution lost to sink. Estimated ~4cc into bag. 6cc remaining in syringe. Colonization tent 68–74°F, dark, no air, no break and shake.</td><td><button class="del" onclick="deleteEntry(&#39;inoc&#39;,103)">✕</button></td></tr><tr><td style="max-width:140px;white-space:pre-wrap">2026-03-10</td><td style="max-width:140px;white-space:pre-wrap">Stargazer · Run-04 · SGZ-01 · Purple dot</td><td style="max-width:140px;white-space:pre-wrap">WBS</td><td style="max-width:140px;white-space:pre-wrap">454</td><td style="max-width:140px;white-space:pre-wrap">~1yr pre-sterilized (North Spore)</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized bag</td><td style="max-width:140px;white-space:pre-wrap">Spore Syringe</td><td style="max-width:140px;white-space:pre-wrap">4</td><td style="max-width:140px;white-space:pre-wrap">Still Air Box (SAB)</td><td style="max-width:140px;white-space:pre-wrap">Stargazer PNW. First run of this strain. Black Tub 3. Col temp 72°F, RH 95%. Filter patch passive FAE. 6cc remaining in syringe.</td><td><button class="del" onclick="deleteEntry(&#39;inoc&#39;,104)">✕</button></td></tr></tbody></table></div>
+  <div id="t-inoc"><table class="tbl"><thead><tr><th>Date</th><th>Bag</th><th>Grain</th><th>Wt(g)</th><th>Age</th><th>Steril</th><th>Inoculant</th><th>CC</th><th>Env</th><th>Notes</th><th></th></tr></thead><tbody><tr><td style="max-width:140px;white-space:pre-wrap">2025-11-28</td><td style="max-width:140px;white-space:pre-wrap">APE · Run-APE-01 · Bag-01</td><td style="max-width:140px;white-space:pre-wrap">WBS</td><td style="max-width:140px;white-space:pre-wrap">454</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized (unknown age)</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized bag</td><td style="max-width:140px;white-space:pre-wrap">Spore Syringe</td><td style="max-width:140px;white-space:pre-wrap">3</td><td style="max-width:140px;white-space:pre-wrap">Still Air Box (SAB)</td><td style="max-width:140px;white-space:pre-wrap">APE ITW Batch 4696. Pink shotgun tub run. Same day as B+ inoculation.</td><td><button class="del" onclick="deleteEntry(&#39;inoc&#39;,100)">✕</button></td></tr><tr><td style="max-width:140px;white-space:pre-wrap">2025-11-28</td><td style="max-width:140px;white-space:pre-wrap">B+ · Run-01 · B+-01 · Bag-01</td><td style="max-width:140px;white-space:pre-wrap">WBS</td><td style="max-width:140px;white-space:pre-wrap">454</td><td style="max-width:140px;white-space:pre-wrap">1yr old pre-sterilized</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized bag</td><td style="max-width:140px;white-space:pre-wrap">Spore Syringe</td><td style="max-width:140px;white-space:pre-wrap">4</td><td style="max-width:140px;white-space:pre-wrap">Still Air Box (SAB)</td><td style="max-width:140px;white-space:pre-wrap">B+ ITW Batch 4685. Green tub run. Grain bag was 1yr old — likely cause of 101-day colonization.</td><td><button class="del" onclick="deleteEntry(&#39;inoc&#39;,101)">✕</button></td></tr><tr><td style="max-width:140px;white-space:pre-wrap">2026-03-09</td><td style="max-width:140px;white-space:pre-wrap">Yeti · Run-02 · Yeti-01 · Yellow dot</td><td style="max-width:140px;white-space:pre-wrap">WBS</td><td style="max-width:140px;white-space:pre-wrap">454</td><td style="max-width:140px;white-space:pre-wrap">~1yr pre-sterilized (North Spore)</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized bag</td><td style="max-width:140px;white-space:pre-wrap">Spore Syringe</td><td style="max-width:140px;white-space:pre-wrap">4</td><td style="max-width:140px;white-space:pre-wrap">Still Air Box (SAB)</td><td style="max-width:140px;white-space:pre-wrap">Yeti ITW Batch 4695. Room temp 2hr + 1min shake before inoculation. Yellow dot ID marker on bag. 6cc remaining in syringe. Colonization tent 68–74°F, dark, no air, no break and shake.</td><td><button class="del" onclick="deleteEntry(&#39;inoc&#39;,102)">✕</button></td></tr><tr><td style="max-width:140px;white-space:pre-wrap">2026-03-09</td><td style="max-width:140px;white-space:pre-wrap">Tidal Wave · Run-03 · TW-01 (ITW) · Blue dot</td><td style="max-width:140px;white-space:pre-wrap">WBS</td><td style="max-width:140px;white-space:pre-wrap">454</td><td style="max-width:140px;white-space:pre-wrap">~1yr pre-sterilized (North Spore)</td><td style="max-width:140px;white-space:pre-wrap">Pre-sterilized bag</td><td style="max-width:140px;white-space:pre-wrap">Spore Syringe</td><td style="max-width:140px;white-space:pre-wrap">4</td><td style="max-width:140px;white-space:pre-wrap">Still Air Box (SAB)</td><td style="max-width:140px;white-space:pre-wrap">Tidal Wave ITW Batch 4660. Room temp 2hr + 1min shake before inoculation. Blue dot ID marker on bag. Port clogged during injection — some spore solution lost to sink. Estimated ~4cc into bag. 6cc remaining in syringe. Colonization tent 68–74°F, dark, no air, no break and shake.</td><td><button class="del" onclick="deleteEntry(&#39;inoc&#39;,103)">✕</button></td></tr></tbody></table></div>
 </div>
 
 <div id="pg-colonization" class="pg">
@@ -681,7 +681,7 @@ select option{background:var(--s2);}
     </div>
     <div class="fa"><button class="btn" onclick="addEntry(&#39;harv&#39;)">Save</button><button class="btn btn-ghost" onclick="toggleForm(&#39;f-harv&#39;)">Cancel</button></div>
   </div>
-  <div id="t-harv"><table class="tbl"><thead><tr><th>Date</th><th>Flush</th><th>Days FC</th><th>Wet(g)</th><th>Dry(g)</th><th>Count</th><th>Cap(cm)</th><th>Veil</th><th>Color</th><th>Bruise</th><th>Substrate</th><th>Notes</th><th>Post-Harvest</th><th></th></tr></thead><tbody><tr><td style="max-width:140px;white-space:pre-wrap">—</td><td><span class="b b-amber">F1</span></td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">F1 only. Trichoderma on F2 — run aborted Mar 9. Dehydrated 110°F 24hr, cracker dry. Processed into 0.25g caps via grain miller. Stored in Herb Guard vacuum jars, dark 68°F. Desiccant packs added. No side pin data recorded.</td><td style="max-width:140px;white-space:pre-wrap">—</td><td><button class="del" onclick="deleteEntry(&#39;harv&#39;,500)">✕</button></td></tr><tr><td style="max-width:140px;white-space:pre-wrap">—</td><td><span class="b b-amber">F1</span></td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">—</td><td style="max-width:140px;white-space:pre-wrap">Dense central flush, no side pinning. Minimal bruising pre-dryer, visible post-dryer. 4cc inoculation. Veils just breaking at harvest. Second flush pins visible. Bowl 1: 790g wet, Bowl 2: 682g wet. Dry weight pending. Dehydrating at 152°F Magic Mill. Second bowl held in fridge during first dryer run.</td><td style="max-width:140px;white-space:pre-wrap">—</td><td><button class="del" onclick="deleteEntry(&#39;harv&#39;,501)">✕</button></td></tr></tbody></table></div>
+  <div id="t-harv"><div class="empty">No entries yet.</div></div>
 </div>
 
 <div id="pg-contamination" class="pg">
@@ -893,7 +893,7 @@ select option{background:var(--s2);}
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="document.getElementById(&#39;lightbox&#39;).classList.remove(&#39;open&#39;)">
   <button class="lightbox-close">✕</button>
-  <img id="lb-img" src="file:///Users/timothyhughes/Downloads/index_3.html" alt="">
+  <img id="lb-img" src="file:///Users/timothyhughes/Downloads/index_4.html" alt="">
   <div class="lightbox-caption" id="lb-cap"></div>
 </div>
 
@@ -981,9 +981,7 @@ async function sbSaveArray(category, arr) {
 }
 
 async function sbLoadAll() {
-  // DB category name -> S state key mapping (where they differ)
-  const catToKey = {'fruiting':'fruit','harvest':'harv'};
-  const categories = ['inoc','col','fruiting','harvest','cont','tubs','storage','depletion',
+  const categories = ['inoc','col','fruit','harv','cont','tubs','storage','depletion',
     'inv_spores','inv_grain','inv_substrate','inv_tubs','inv_consumables'];
   showSyncStatus('loading');
   try {
@@ -993,8 +991,7 @@ async function sbLoadAll() {
         const key = cat.replace('inv_','');
         if(S.inv[key] !== undefined) S.inv[key] = rows;
       } else {
-        const key = catToKey[cat] || cat;
-        if(S[key] !== undefined) S[key] = rows;
+        if(S[cat] !== undefined) S[cat] = rows;
       }
     }
     showSyncStatus('ok');
@@ -1004,14 +1001,11 @@ async function sbLoadAll() {
 }
 
 async function save() {
-  // Map S state keys to DB category names where they differ
-  const keyToCat = {'fruit':'fruiting','harv':'harvest'};
   showSyncStatus('saving');
   try {
     const toSave = ['inoc','col','fruit','harv','cont','tubs','storage','depletion'];
-    for(const key of toSave){
-      const cat = keyToCat[key] || key;
-      await sbSaveArray(cat, S[key]||[]);
+    for(const cat of toSave){
+      await sbSaveArray(cat, S[cat]||[]);
     }
     for(const key of Object.keys(S.inv)){
       await sbSaveArray('inv_'+key, S.inv[key]||[]);
@@ -1419,11 +1413,11 @@ function seedInventory(){
   S.inv.spores=[
     {id:1,strain:'B+',species:'P. cubensis',vendor:'Inoculate the World',batch:'4685',total:'10',remain:'6',storage:'Fridge (dark)',status:'Active — in use',notes:'~1yr. 4cc used in active Run-01.'},
     {id:2,strain:'APE',species:'P. cubensis',vendor:'Inoculate the World',batch:'4696',total:'10',remain:'7',storage:'Fridge (dark)',status:'Stored — available',notes:'~1yr. 3cc used in completed APE run.'},
-    {id:3,strain:'Tidal Wave',species:'P. cubensis',vendor:'Inoculate the World',batch:'4660',total:'10',remain:'6',storage:'Fridge (dark)',status:'Active — in use',notes:'~1yr. 4cc used in Run-03 · TW-01 (ITW) Mar 9, 2026. Port clogged during inoc, some lost to sink — ~4cc estimated into bag. 6cc remaining.'},
-    {id:4,strain:'Yeti',species:'P. cubensis',vendor:'Inoculate the World',batch:'4695',total:'10',remain:'6',storage:'Fridge (dark)',status:'Active — in use',notes:'~1yr. 4cc used in Run-02 · Yeti-01 Mar 9, 2026. Room temp 2hr + 1min shake pre-inoculation. 6cc remaining.'},
+    {id:3,strain:'Tidal Wave',species:'P. cubensis',vendor:'Inoculate the World',batch:'4660',total:'10',remain:'6',storage:'Fridge (dark)',status:'Active — in use',notes:'~1yr. 4cc used in Run-03 · TW-01 (ITW) Mar 9, 2026. Blue dot bag ID. Port clogged during inoc, some lost to sink — ~4cc estimated into bag. 6cc remaining.'},
+    {id:4,strain:'Yeti',species:'P. cubensis',vendor:'Inoculate the World',batch:'4695',total:'10',remain:'6',storage:'Fridge (dark)',status:'Active — in use',notes:'~1yr. 4cc used in Run-02 · Yeti-01 Mar 9, 2026. Yellow dot bag ID. Room temp 2hr + 1min shake pre-inoculation. 6cc remaining.'},
     {id:5,strain:'Golden Teacher',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'8',storage:'Fridge (dark)',status:'Stored — available',notes:'~2yr. 2cc used. Successful grow.'},
     {id:6,strain:'Natal Super Strength',species:'P. natalensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'7',storage:'Fridge (dark)',status:'Stored — available',notes:'~2yr. 3cc used. P. natalensis — different protocol. Not compatible with standard cubensis monotub setup.'},
-    {id:7,strain:'Stargazer',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'6',storage:'Fridge (dark)',status:'Active — in use',notes:'~2yr. 4cc used in Run-04 · SGZ-01 Mar 10, 2026. Black Tub 3. 6cc remaining.'},
+    {id:7,strain:'Stargazer',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',storage:'Fridge (dark)',status:'Stored — available',notes:'~2yr. Never used.'},
     {id:8,strain:'Syzygy',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',storage:'Fridge (dark)',status:'Stored — available',notes:'~2yr. Never used.'},
     {id:9,strain:'Huautla',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',storage:'Fridge (dark)',status:'Suspect / questionable',notes:'3+ yrs. Same era as failed Tidal Wave grow. Test inoculation before committing grain.'},
     {id:10,strain:'Tidal Wave',species:'P. cubensis',vendor:'PNW Spore Co.',batch:'',total:'10',remain:'10',storage:'Fridge (dark)',status:'Suspect / questionable',notes:'3+ yrs. Previous grow had zero potency. Consider disposal.'},
@@ -1459,11 +1453,11 @@ function seedInventory(){
     S.tubs.push({id:'black-2',status:'active',strain:'Tidal Wave (ITW)',spore:'ITW Batch 4660',cc:'4',grainbags:'1',subbags:'',spawndate:'2026-03-09',fcdate:'',flush:'1',phase:'colonizing',f1wet:'',f1dry:'',f2wet:'',f2dry:'',f3wet:'',f3dry:'',notes:'Run-03 · TW-01 (ITW). Blue dot bag. Room temp 2hr + 1min shake pre-inoculation. Port clogged during injection — some lost to sink, est. ~4cc into bag. Colonization tent 68–74°F, dark, no air.'});
   }
   if(!S.tubs.find(t=>t.id==='green')){
-    S.tubs.push({id:'green',status:'active',strain:'B+',spore:'ITW Batch 4685',cc:'4',grainbags:'1',subbags:'3',spawndate:'2025-11-28',fcdate:'2026-03-20',flush:'1',phase:'second flush rest',f1wet:'1472',f1dry:'',f2wet:'',f2dry:'',f3wet:'',f3dry:'',notes:'Grain bag broken up, loose mix with 3x Boomr Bag. ¼" Myco Coco coir casing. Steam pasteurized. Filter patch lid. 3:1 ratio. No compaction throughout. Old grain bag (1yr at inoculation) — 101 day colonization. Pinned Mar 20 (est). Harvested Mar 25. No side pinning. Minimal bruising pre-dryer, visible post-dryer. Dense central cluster. F2 pins visible at harvest. Wet weight: 1472g. Dry weight pending. Post-harvest: light hydration, returned to tent Mar 25.'});
+    S.tubs.push({id:'green',status:'active',strain:'B+',spore:'ITW Batch 4685',cc:'4',grainbags:'1',subbags:'3',spawndate:'2025-11-28',fcdate:'2026-03-09',flush:'1',phase:'colonizing',f1wet:'',f1dry:'',f2wet:'',f2dry:'',f3wet:'',f3dry:'',notes:'Grain bag broken up, loose mix with 3x Boomr Bag. ¼" Myco Coco coir casing. Steam pasteurized. Filter patch lid. 3:1 ratio. No compaction throughout. Old grain bag (1yr at inoculation) — 101 day colonization. F1 drying: 6hrs at 153°F (testing shorter/hotter protocol vs APE 16hrs at 110°F).'});
   }
   // Seed pink tub as cleaning
   if(!S.tubs.find(t=>t.id==='pink')){
-    S.tubs.push({id:'pink',status:'cleaning',strain:'APE',spore:'ITW Batch 4696',cc:'3',grainbags:'1',subbags:'1',spawndate:'2025-11-28',fcdate:'',flush:'2',phase:'done',f1wet:'',f1dry:'',f2wet:'',f2dry:'',f3wet:'',f3dry:'',notes:'APE Run complete. F1: ~79g dry. F2: Trichoderma detected (moderate, spreading). Aborted Mar 9. Dumped outdoors. Cleaning in AZ sun. Alcohol sterilize after.'});
+    S.tubs.push({id:'pink',status:'cleaning',strain:'APE',spore:'ITW Batch 4696',cc:'3',grainbags:'1',subbags:'1',spawndate:'2025-11-28',fcdate:'',flush:'2',phase:'done',f1wet:'',f1dry:'',f2wet:'',f2dry:'',f3wet:'',f3dry:'',notes:'APE Run complete. F1: ~79g dry. Dried 16hrs at 110°F. F2: Trichoderma detected (moderate, spreading). Aborted Mar 9. Dumped outdoors. Cleaning in AZ sun. Alcohol sterilize after.'});
   }
   // Seed orange as broken
   if(!S.tubs.find(t=>t.id==='orange')){
@@ -1553,7 +1547,7 @@ function renderAll() {
           <option value="tw">Tidal Wave</option>
           <option value="bp">B+</option>
           <option value="gt">Golden Teacher</option>
-          <option value="sgz">Stargazer</option>
+          <option value="gt">Stargazer</option>
           <option value="nss">Natal Super Strength</option>
         </select>
       </div>
@@ -1845,7 +1839,6 @@ const STRAIN_POTENCY = {
   tw: { base: 1.05, label: 'Tidal Wave' },
   bp: { base: 0.55, label: 'B+' },
   gt: { base: 0.5, label: 'Golden Teacher' },
-  sgz: { base: 0.75, label: 'Stargazer' },
   nss: { base: 1.1, label: 'Natal Super Strength' },
 };
 
