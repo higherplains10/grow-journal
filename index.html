@@ -689,11 +689,11 @@ let S = {
 function seedState() {
   S.runs = [
     {
-      id: 1, cube: 'B+', color: 'green', tub: 'Green Tub', phase: 'rest',
-      inocDate: '2025-11-28', fcDate: '2026-03-09', flush: 2,
+      id: 1, cube: 'B+', color: 'green', tub: 'Green Tub', phase: 'done',
+      inocDate: '2025-11-28', fcDate: '2026-03-09', flush: 1,
       spawnDate: '2026-02-10', source: 'Inoculate the World', batch: '4685', cc: 4,
       f1wet: 1472, f1dry: 102.9, f1date: '2026-03-25',
-      notes: 'F1: 102.9g dry. F2 pins visible at harvest. Returned to tent Mar 25. Colonization took 101 days — old grain bag likely the cause. Lesson: fresh bags matter.',
+      notes: 'F1: 102.9g dry. F2: Trichoderma contamination — blue-green mold, center of substrate. Full loss. Tub dumped, tent cleaned Mar 30. Colonization took 101 days — old grain bag likely the cause.',
       drying: '152°F Magic Mill dehydrator. Dense central cluster, no side pinning, minimal bruising.'
     },
     {
@@ -730,6 +730,13 @@ function seedState() {
 
   S.history = [
     {
+      id: 31, cube: 'B+', color: 'green',
+      inocDate: '2025-11-28', completeDate: '2026-03-30',
+      f1dry: 102.9, f2outcome: 'Trichoderma contamination — aborted',
+      notes: 'B+ from Inoculate the World, 4cc into 1lb grain bag. Colonization took 101 days — old grain bag likely a factor. No break & shake. F1 harvested Mar 25: 1,472g wet / 102.9g dry (7.0% ratio). Dense central cluster, minimal bruising. F2 initiated Mar 27; blue-green Trichoderma appeared at center of substrate. Full loss. Tub dumped and tent cleaned Mar 30.',
+      lessons: 'Fresh grain bags matter — old compacted grain likely slowed colonization and may have contributed to vulnerability. Trich appeared at center. Same outcome as APE F2. Inspect substrate carefully before initiating F2; when in doubt, abort early.'
+    },
+    {
       id: 30, cube: 'APE', color: 'pink',
       inocDate: '2025-11-28', completeDate: '2026-03',
       f1dry: 79, f2outcome: 'Trichoderma contamination — aborted',
@@ -739,6 +746,13 @@ function seedState() {
   ];
 
   S.cont = [
+    {
+      id: 41, run: 'B+-01', cube: 'B+', date: '2026-03-30',
+      phase: 'F2 (between flush 1 and flush 2)', agent: 'Trichoderma (blue-green mold)',
+      severity: 'Terminal', outcome: 'Run aborted — tub dumped, tent cleaned',
+      desc: 'Blue-green Trichoderma identified at center of substrate during F2. F2 rest initiated Mar 27; contamination confirmed Mar 30. Full substrate loss, no salvageable material.',
+      lesson: 'Second consecutive F2 Trich loss (APE F2 was the first). Both appeared at the center of the substrate — the densest area post-F1 harvest. Consider more aggressive surface scraping, longer rest period, or skipping F2 entirely on future runs if surface integrity is questionable.'
+    },
     {
       id: 40, run: 'APE-01', cube: 'APE', date: '2026-03',
       phase: 'Between F1 and F2', agent: 'Trichoderma (green mold)',
@@ -1159,7 +1173,7 @@ function renderNotes() {
         <li><strong>Golden Teacher</strong> — ~1 year ago (PNW Spore Co.) · Successful</li>
         <li><strong>Natal Super Strength</strong> — ~1 year ago · P. natalensis, different protocol</li>
         <li><strong>APE-01</strong> — Nov 2025 · F1: 79g dry · F2: Trich abort</li>
-        <li><strong>B+-01</strong> — Nov 2025 · F1: 102.9g dry · F2 in progress</li>
+        <li><strong>B+-01</strong> — Nov 2025 · F1: 102.9g dry · F2: Trichoderma — run complete</li>
         <li><strong>Yeti-01</strong> — Mar 9 2026 · Colonizing</li>
         <li><strong>TW-01</strong> — Mar 9 2026 · Colonizing (port clog)</li>
       </ul>`
