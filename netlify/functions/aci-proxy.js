@@ -1,3 +1,5 @@
+const http = require('http');
+
 exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -8,6 +10,10 @@ exports.handler = async (event) => {
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
+  }
+
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, headers, body: JSON.stringify({ error: 'POST only' }) };
   }
 
   try {
@@ -21,38 +27,56 @@ exports.handler = async (event) => {
     const { endpoint, payload, token } = body;
 
     if (!endpoint || !payload) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: 'Missing endpoint or payload' })
-      };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing endpoint or payload' }) };
     }
 
-    const url = `https://acicloud.appspot.com${endpoint}`;
-
-    const fetchHeaders = { 'Content-Type': 'application/json' };
-    if (token) {
-      fetchHeaders['token'] = token;
+    const allowed = ['/api/user/appUserLogin', '/api/user/devInfoListAll'];
+    if (!allowed.includes(endpoint)) {
+      return { statusCode: 403, headers, body: JSON.stringify({ error: 'Endpoint not allowed' }) };
     }
 
-    const resp = await fetch(url, {
-      method: 'POST',
-      headers: fetchHeaders,
-      body: JSON.stringify(payload)
-    });
+    if (token && !payload.userId) {
+      payload.userId = token;
+    }
 
-    const data = await resp.text();
-
-    return {
-      statusCode: 200,
-      headers,
-      body: data
-    };
+    const result = await doRequest(endpoint, payload);
+    return { statusCode: 200, headers, body: result };
   } catch (err) {
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: 'Proxy error', detail: err.message })
-    };
+    return { statusCode: 502, headers, body: JSON.stringify({ error: 'AC Infinity API error', detail: err.message }) };
   }
 };
+
+function doRequest(endpoint, payload) {
+  return new Promise((resolve, reject) => {
+    const params = new URLSearchParams();
+    for (const [key, val] of Object.entries(payload)) {
+      params.append(key, String(val));
+    }
+    const postData = params.toString();
+
+    const options = {
+      hostname: 'www.acinfinityserver.com',
+      port: 80,
+      path: endpoint,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData),
+        'User-Agent': 'ACController/1.9.7 (com.acinfinity.humiture; build:533; iOS 18.5.0) Alamofire/5.10.2'
+      },
+      timeout: 15000
+    };
+
+    const req = http.request(options, (res) => {
+      let body = '';
+      res.setEncoding('utf8');
+      res.on('data', (chunk) => { body += chunk; });
+      res.on('end', () => { resolve(body); });
+    });
+
+    req.on('error', (e) => reject(e));
+    req.on('timeout', () => { req.destroy(); reject(new Error('Timeout')); });
+    req.write(postData);
+    req.end();
+  });
+}
