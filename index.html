@@ -197,19 +197,23 @@ async function fetchACI(){
   document.getElementById('aci-info').textContent='Fetching...';
   try{
     const r=await fetch(ACI_PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({endpoint:'/api/user/devInfoListAll',payload:{userId:creds.token},token:creds.token})});
-    const d=await r.json();
+    const text=await r.text();
+    console.log('ACI fetchACI raw response:',text.slice(0,500));
+    let d;
+    try{d=JSON.parse(text)}catch(e){document.getElementById('aci-info').textContent='Bad JSON from API';flash('ACI returned invalid JSON: '+text.slice(0,120));return}
+    console.log('ACI fetchACI parsed:',d.code,d.msg,Array.isArray(d.data)?d.data.length+' devices':'no data array');
     if(d.code===200&&d.data){
       const devices=d.data;
       let html='';let logged=false;
       for(const dev of devices){
         const name=dev.devName||'Controller';
         const di=dev.deviceInfo||{};
-        // Primary sensor data is on deviceInfo directly
+        console.log('ACI device:',name,'deviceInfo keys:',Object.keys(di).join(','));
         const tempRaw=di.temperatureF!==undefined?di.temperatureF:null;
         const humRaw=di.humidity!==undefined?di.humidity:null;
-        // VPD: check deviceInfo.vpdnums or sensors array (sensorType 7)
         let vpdRaw=di.vpdnums!==undefined?di.vpdnums:null;
         if(vpdRaw===null&&di.sensors){const vs=di.sensors.find(s=>s.sensorType===7);if(vs)vpdRaw=vs.sensorData}
+        console.log('ACI sensor raw:','temp=',tempRaw,'hum=',humRaw,'vpd=',vpdRaw);
         if(tempRaw!==null||humRaw!==null){
           const tf=tempRaw!==null?(tempRaw/100).toFixed(1):null;
           const rh=humRaw!==null?(humRaw/100).toFixed(1):null;
@@ -232,7 +236,14 @@ async function fetchACI(){
       if(html){liveEl.style.display='grid';liveEl.innerHTML=html;document.getElementById('aci-info').textContent=`Connected · ${new Date().toLocaleTimeString()}`}
       else{liveEl.style.display='none';document.getElementById('aci-info').textContent='Connected — no sensor data found'}
       if(logged){await loadEnv();flash('Tent data logged.')}else{flash('Fetched — no new data.')}
-    }else{document.getElementById('aci-info').textContent='Session expired — reconnect';flash('Session expired.');localStorage.removeItem('aci_creds')}
+    }else{
+      const msg=d.msg||'Unknown error';
+      const code=d.code||'?';
+      console.log('ACI fetch failed:',code,msg);
+      document.getElementById('aci-info').textContent=`API error: ${code} — ${msg}`;
+      flash(`ACI: ${msg} (code ${code})`);
+      if(d.code===401)localStorage.removeItem('aci_creds');
+    }
   }catch(e){document.getElementById('aci-info').textContent='Fetch error';flash('Fetch failed — '+e.message)}
 }
 function initACI(){const creds=getACI();if(creds){document.getElementById('aci-info').textContent=`Connected as ${creds.email}`}}
