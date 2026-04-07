@@ -39,14 +39,14 @@ exports.handler = async (event) => {
       payload.userId = token;
     }
 
-    const result = await doRequest(endpoint, payload);
+    const result = await doRequest(endpoint, payload, token);
     return { statusCode: 200, headers, body: result };
   } catch (err) {
     return { statusCode: 502, headers, body: JSON.stringify({ error: 'AC Infinity API error', detail: err.message }) };
   }
 };
 
-function doRequest(endpoint, payload) {
+function doRequest(endpoint, payload, token) {
   return new Promise((resolve, reject) => {
     const params = new URLSearchParams();
     for (const [key, val] of Object.entries(payload)) {
@@ -54,16 +54,25 @@ function doRequest(endpoint, payload) {
     }
     const postData = params.toString();
 
+    const reqHeaders = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData),
+      'User-Agent': 'ACController/1.9.7 (com.acinfinity.humiture; build:533; iOS 18.5.0) Alamofire/5.10.2'
+    };
+
+    // Authenticated endpoints require token + phoneType + appVersion headers
+    if (token) {
+      reqHeaders['token'] = token;
+      reqHeaders['phoneType'] = '1';
+      reqHeaders['appVersion'] = '1.9.7';
+    }
+
     const options = {
       hostname: 'www.acinfinityserver.com',
       port: 80,
       path: endpoint,
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(postData),
-        'User-Agent': 'ACController/1.9.7 (com.acinfinity.humiture; build:533; iOS 18.5.0) Alamofire/5.10.2'
-      },
+      headers: reqHeaders,
       timeout: 15000
     };
 
