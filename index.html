@@ -39,13 +39,17 @@ nav{display:flex;gap:3px;margin-bottom:28px;overflow-x:auto;-webkit-overflow-scr
 .mat-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.mat-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;background:var(--surface);border:1px solid var(--border);color:var(--text2)}.mat-chip .mc-icon{font-size:15px}
 .est-date{font-size:13px;color:var(--accent);font-weight:500;margin-top:4px}
 .age-tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--surface);color:var(--muted)}
+.guide-phase{margin-bottom:16px;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--card);box-shadow:var(--shadow)}.guide-phase-header{display:flex;align-items:center;gap:16px;padding:20px 24px;cursor:pointer;transition:background .15s}.guide-phase-header:hover{background:var(--surface)}.guide-phase-num{width:36px;height:36px;border-radius:50%;color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}.guide-phase-title{font-size:18px;font-weight:700}.guide-phase-sub{font-size:13px;color:var(--muted);margin-top:2px}.guide-arrow{margin-left:auto;font-size:18px;color:var(--muted);transition:transform .2s;flex-shrink:0}.guide-arrow.open{transform:rotate(180deg)}
+.guide-body{padding:0 24px 24px}.guide-art{font-size:40px;text-align:center;padding:16px 0;letter-spacing:8px}.guide-content{font-size:15px;line-height:1.8;color:var(--text2)}.guide-content p{margin-bottom:14px}.guide-content strong{color:var(--text);font-weight:600}
+.guide-tip{background:var(--amber-bg);border-left:4px solid var(--amber);padding:14px 18px;border-radius:0 10px 10px 0;font-size:14px;color:var(--text);line-height:1.6;margin:16px 0}
+.guide-protocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:16px 0}.guide-proto-card{border:2px solid var(--border);border-radius:12px;padding:18px;background:var(--surface)}.guide-proto-name{font-size:15px;font-weight:700;color:var(--text)}.guide-proto-detail{font-size:20px;font-weight:700;color:var(--accent);margin-top:4px}
 @media(max-width:768px){.app{padding:0 14px 60px}.stats{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.jar-grid{grid-template-columns:1fr 1fr}.col-detail-grid{grid-template-columns:1fr 1fr}}@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.stat{padding:14px 16px}.stat-val{font-size:24px}.col-card-lg{padding:20px}.col-card-lg>div:first-child{flex-direction:column!important}.bag-visual{max-width:120px;height:140px;margin-top:12px}.jar-grid{grid-template-columns:1fr}.run-card::after{display:none}.logo span{display:none}}
 </style>
 </head>
 <body>
 <div class="app">
 <header><div class="logo">Mycelium Lab <span>Higher Plains · Tucson AZ</span></div><div class="sync" id="sync" onclick="pushSeedToDb()">connecting...</div></header>
-<div class="nav-wrap"><nav id="nav"><button class="on" onclick="go('dashboard')">Dashboard</button><button onclick="go('runs')">Runs</button><button onclick="go('harvest')">Harvest</button><button onclick="go('storage')">Mushroom Inv</button><button onclick="go('inventory')">Grow Supplies</button><button onclick="go('contamination')">Contam</button><button onclick="go('environment')">Environment</button><button onclick="go('blog')">Journal</button><button onclick="go('notes')">Notes</button></nav></div>
+<div class="nav-wrap"><nav id="nav"><button class="on" onclick="go('dashboard')">Dashboard</button><button onclick="go('runs')">Runs</button><button onclick="go('harvest')">Harvest</button><button onclick="go('storage')">Mushroom Inv</button><button onclick="go('inventory')">Grow Supplies</button><button onclick="go('contamination')">Contam</button><button onclick="go('environment')">Environment</button><button onclick="go('blog')">Journal</button><button onclick="go('notes')">Notes</button><button onclick="go('guide')">Guide</button></nav></div>
 <div class="page on" id="pg-dashboard"><div class="stats" id="stats-grid"></div><div class="sh"><div><h2>Active Runs</h2><p>Current grows in progress</p></div><button class="btn btn-primary btn-sm" onclick="go('new-run')">+ New Run</button></div><div class="run-grid" id="active-runs"></div></div>
 <div class="page" id="pg-runs"><div class="sh"><div><h2>All Runs</h2></div><button class="btn btn-primary btn-sm" onclick="go('new-run')">+ New Run</button></div><div id="all-runs"></div><div id="run-detail" style="display:none"></div></div>
 <div class="page" id="pg-new-run"><div class="sh"><div><h2>Start New Run</h2></div></div><div class="form-card"><div class="form-grid"><div class="form-group"><label>Spore Syringe</label><select id="nr-spore" onchange="nrAutoFill()"><option value="">Select...</option></select></div><div class="form-group"><label>CC</label><input type="number" id="nr-cc" value="4" step="0.5" onchange="nrAutoFill()"></div><div class="form-group"><label>Date</label><input type="date" id="nr-date"></div><div class="form-group"><label>Grain</label><input id="nr-grain" value="North Spore 1lb w/ injection port"></div><div class="form-group"><label>Sterilization</label><select id="nr-steril"><option>Pre-sterilized bag</option><option>PC 15 PSI / 90 min</option></select></div><div class="form-group"><label>Tub (assigned at launch)</label><select id="nr-tub"><option value="">Select tub...</option></select></div><div class="form-group"><label>Col Temp (°F)</label><input type="number" id="nr-temp" value="74"></div><div class="form-group"><label>Break &amp; Shake</label><select id="nr-bns"><option value="no">No</option><option value="yes">Yes</option></select></div><div class="form-group full"><label>Notes</label><textarea id="nr-notes"></textarea></div></div><div id="nr-preview" style="display:none;margin-top:14px;padding:16px;background:var(--white);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text2)"></div><div class="form-actions"><button class="btn btn-primary" onclick="launchRun()">Launch Run</button><button class="btn" onclick="go('dashboard')">Cancel</button></div></div></div>
@@ -56,6 +60,157 @@ nav{display:flex;gap:3px;margin-bottom:28px;overflow-x:auto;-webkit-overflow-scr
 <div class="page" id="pg-environment"><div class="sh"><div><h2>Environment Log</h2></div><div class="btn-row"><button class="btn btn-sm" onclick="fetchACI()">Fetch Tent Data</button><button class="btn btn-primary btn-sm" onclick="toggleEl('env-form')">+ Log Reading</button></div></div><div class="card" id="aci-status" style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:700;font-size:15px">AC Infinity Controller</div><div style="font-size:13px;color:var(--muted)" id="aci-info">Not connected</div></div><button class="btn btn-sm" onclick="toggleEl('aci-setup')">Setup</button></div><div id="aci-live" style="display:none;margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;text-align:center"></div><div class="form-card" id="aci-setup" style="display:none;margin-top:14px"><div style="font-size:13px;color:var(--text2);margin-bottom:12px">Enter your AC Infinity app credentials. Stored in your browser only.</div><div class="form-grid"><div class="form-group"><label>Email</label><input id="aci-email" type="email"></div><div class="form-group"><label>Password</label><input id="aci-pass" type="password"></div></div><div class="form-actions"><button class="btn btn-primary" onclick="connectACI()">Connect</button><button class="btn" onclick="clearACI()">Clear</button></div></div></div><div class="form-card" id="env-form" style="display:none"><div class="form-grid"><div class="form-group"><label>Date</label><input type="date" id="env-date"></div><div class="form-group"><label>Run</label><select id="env-run"><option value="">General</option></select></div><div class="form-group"><label>Temp (°F)</label><input type="number" id="env-temp" step="0.1"></div><div class="form-group"><label>Humidity (%)</label><input type="number" id="env-hum"></div><div class="form-group full"><label>Notes</label><textarea id="env-notes"></textarea></div></div><div class="form-actions"><button class="btn btn-primary" onclick="saveEnvLog()">Save</button><button class="btn" onclick="toggleEl('env-form')">Cancel</button></div></div><div id="env-table"></div></div>
 <div class="page" id="pg-blog"><div class="sh"><div><h2>Grow Journal</h2></div><button class="btn btn-primary btn-sm" onclick="toggleEl('blog-form')">+ New Entry</button></div><div class="form-card" id="blog-form" style="display:none"><div class="form-grid"><div class="form-group"><label>Run</label><select id="bl-run"></select></div><div class="form-group"><label>Type</label><select id="bl-type"><option>Build Log</option><option>Observation</option><option>Harvest</option><option>Post-Mortem</option><option>Protocol Note</option></select></div><div class="form-group full"><label>Title</label><input id="bl-title"></div><div class="form-group full"><label>Entry</label><textarea id="bl-body" style="min-height:140px"></textarea></div></div><div class="form-actions"><button class="btn btn-primary" onclick="saveBlogEntry()">Save</button><button class="btn" onclick="toggleEl('blog-form')">Cancel</button></div></div><div id="blog-list"></div></div>
 <div class="page" id="pg-notes"><div class="sh"><div><h2>Grow Notes</h2></div><button class="btn btn-primary btn-sm" onclick="addNote()">+ Add Note</button></div><div id="notes-filter" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px"></div><div id="notes-content"></div></div>
+<div class="page" id="pg-guide">
+<div style="text-align:center;padding:40px 20px 30px">
+<div style="font-size:48px;margin-bottom:8px">🍄</div>
+<h2 style="font-size:28px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px">The Grow Guide</h2>
+<p style="font-size:15px;color:var(--text2);max-width:500px;margin:0 auto">A start-to-finish walkthrough of how I grow P. cubensis at home. Based on real runs, real data, and real mistakes.</p>
+<p style="font-size:12px;color:var(--muted);margin-top:8px">By Higher Plains — Tucson, AZ</p>
+</div>
+<div id="guide-phases">
+<div class="guide-phase" style="--phase-color:#d97706">
+<div class="guide-phase-header" onclick="toggleGuide(this)">
+<div class="guide-phase-num" style="background:#d97706">1</div>
+<div><div class="guide-phase-title">Prep & Inoculation</div><div class="guide-phase-sub">Choosing a strain, prepping materials, and injecting spores</div></div>
+<div class="guide-arrow">▾</div>
+</div>
+<div class="guide-body" style="display:none">
+<div class="guide-art">💉🧫</div>
+<div class="guide-content">
+<p><strong>Choosing your strain.</strong> Start with something forgiving — B+ and Golden Teacher are reliable first-timers. APE is rewarding but slower to colonize and more sensitive to contamination. Each syringe gets a permanent color dot on the syringe, grain bag, and tub so you never mix up what's what.</p>
+<p><strong>Spore syringe prep.</strong> Pull the syringe out of the fridge 2 hours before inoculation and let it come to room temperature. Shake vigorously for 1 full minute to break up spore clumps and distribute evenly.</p>
+<p><strong>Injection.</strong> Use 4cc per 1lb grain bag — not 10cc. More solution means more moisture, which means more contamination risk. Flame-sterilize the needle between bags. Inject through the self-healing injection port — if the port clogs (happened on TW-01), estimate what got in and note it.</p>
+<p><strong>Label immediately.</strong> Dot sticker on the bag matching the syringe color. Write the date. This is your chain of custody from here forward.</p>
+<div class="guide-tip">My system: B+ = Green, APE = Pink, Yeti = Yellow, Tidal Wave = Blue, Stargazer = Purple, NSS = Red, Syzygy = Orange, GT = Teal</div>
+</div></div></div>
+
+<div class="guide-phase" style="--phase-color:#eab308">
+<div class="guide-phase-header" onclick="toggleGuide(this)">
+<div class="guide-phase-num" style="background:#eab308">2</div>
+<div><div class="guide-phase-title">Colonization</div><div class="guide-phase-sub">The waiting game — 30 to 90 days in the dark</div></div>
+<div class="guide-arrow">▾</div>
+</div>
+<div class="guide-body" style="display:none">
+<div class="guide-art">🌾⏳</div>
+<div class="guide-content">
+<p><strong>Environment.</strong> Grain bag goes into a colonization tent — 68-74°F, complete darkness, no air exchange needed at this stage. The mycelium is eating the grain and doesn't need fresh air yet.</p>
+<p><strong>Don't touch it.</strong> Seriously. No peeking for at least 2 weeks. Every time you open the tent you introduce contamination risk. First peek at day 14-21, then weekly after that.</p>
+<p><strong>What to look for.</strong> White fuzzy growth spreading from the injection point. It should be bright white and ropey. Any green, black, orange, or pink is contamination — isolate the bag immediately.</p>
+<p><strong>Timeline.</strong> Expect 30-60 days for most cubensis strains. B+-01 took 101 days (old grain bag). Yeti and TW are tracking around 60 days. Slow isn't bad — slow and white is healthy.</p>
+<p><strong>No break and shake.</strong> This is an intentional choice. Some growers break up the colonized grain and shake it to speed things up. I skip it. The risk of introducing contamination through micro-tears in the bag isn't worth the few days saved. I've run this experiment across APE, B+, Yeti, and TW — all colonized fine without it.</p>
+<div class="guide-tip">Decision framework: If the bag is less than 30% colonized at day 60, it's probably stalled. If it's 50%+ and still growing (even slowly), let it ride.</div>
+</div></div></div>
+
+<div class="guide-phase" style="--phase-color:#16a34a">
+<div class="guide-phase-header" onclick="toggleGuide(this)">
+<div class="guide-phase-num" style="background:#16a34a">3</div>
+<div><div class="guide-phase-title">Bulk Transfer & Tub Setup</div><div class="guide-phase-sub">Breaking grain, mixing substrate, and moving to the grow tent</div></div>
+<div class="guide-arrow">▾</div>
+</div>
+<div class="guide-body" style="display:none">
+<div class="guide-art">📦🧤</div>
+<div class="guide-content">
+<p><strong>Sterilization is everything.</strong> This is where most contamination happens. Spray every single surface with isopropyl alcohol 2-3 times. The tub, the lid, your gloves, the scissors, the table, the bag exterior. If you're not sure whether you sprayed something — spray it again. Change gloves between steps. IPA and fresh gloves are cheap. A lost tub is not.</p>
+<p><strong>The mix.</strong> Break up the fully colonized grain bag and mix loosely with substrate at a 3:1 ratio — 3 bags of substrate (North Spore Boomr Bag, manure-based) to 1 colonized grain bag. Don't compact it. Loose and even.</p>
+<p><strong>Casing layer.</strong> Apply an eyeball-level layer of coco coir on top right at the beginning. This is your moisture-retention surface. Don't skip it, don't overthink the depth — just enough to cover the substrate mix evenly.</p>
+<p><strong>Kickstart with steam.</strong> Hit the tub with the Bissell PowerSteamer before putting the lid on. This creates the initial humidity atmosphere that tells the mycelium "time to fruit." Polyfill filter lid goes on — not sealed tight, just resting to allow gas exchange.</p>
+<p><strong>Into the grow tent.</strong> The tub goes directly into the AC Infinity grow tent — not the colonization tent. This is the fruiting environment: higher humidity, light cycle, and air exchange. The grow tent is automated with a controller monitoring temp and humidity.</p>
+<div class="guide-tip">The North Spore mono tubs with matching lids are the only tubs I use. Consistent size, good depth, and the lid fit allows enough FAE without modifying anything.</div>
+</div></div></div>
+
+<div class="guide-phase" style="--phase-color:#2563eb">
+<div class="guide-phase-header" onclick="toggleGuide(this)">
+<div class="guide-phase-num" style="background:#2563eb">4</div>
+<div><div class="guide-phase-title">Fruiting Conditions</div><div class="guide-phase-sub">Light, air, humidity — pins to harvest</div></div>
+<div class="guide-arrow">▾</div>
+</div>
+<div class="guide-body" style="display:none">
+<div class="guide-art">🍄💧</div>
+<div class="guide-content">
+<p><strong>Environment targets.</strong> Temperature 68-78°F, humidity 85-95%, VPD 0.4-1.2 kPa. The AC Infinity controller automates most of this. Light on a sunrise/sunset cycle at mid-level — mushrooms use light as a directional cue, not for energy.</p>
+<p><strong>What to watch.</strong> Tiny white bumps (primordia) appear first, usually within 7-14 days of transfer. These develop into pins — small mushroom shapes with visible caps. From pins to harvest is typically 5-10 days depending on strain and conditions.</p>
+<p><strong>Wall moisture.</strong> You want condensation droplets on the tub walls. No pooling on the substrate surface. If the walls are dry, mist lightly. If there's standing water, increase FAE.</p>
+<p><strong>Harvest timing.</strong> Watch the veils — the thin membrane connecting the cap to the stem. When veils start to tear or break, it's time. Don't wait for full cap opening. Twist and pull gently at the base. B+-01 produced a dense central cluster with no side pinning and minimal bruising — textbook flush.</p>
+</div></div></div>
+
+<div class="guide-phase" style="--phase-color:#7c3aed">
+<div class="guide-phase-header" onclick="toggleGuide(this)">
+<div class="guide-phase-num" style="background:#7c3aed">5</div>
+<div><div class="guide-phase-title">Harvest & Weighing</div><div class="guide-phase-sub">From tub to scale — wet weight documentation</div></div>
+<div class="guide-arrow">▾</div>
+</div>
+<div class="guide-body" style="display:none">
+<div class="guide-art">⚖️📋</div>
+<div class="guide-content">
+<p><strong>Weigh fresh immediately.</strong> This is where documentation matters most. Weigh everything wet before it goes on the dehydrator. Use a container on the scale and subtract the tare weight. Split into batches if needed — B+-01 was two bowls (790g + 682g = 1,472g total wet).</p>
+<p><strong>Record everything.</strong> Strain, flush number, wet weight, date, and any observations (cluster size, bruising, side pins vs center growth). This is the data that lets you compare strains and techniques over time. My biggest early mistake was not weighing — APE F1 is estimated at 76-82g dry because I didn't weigh it wet.</p>
+<p><strong>Clean up stumps.</strong> After harvest, clean any remaining stump bases from the substrate surface. This reduces the chance of bacterial contamination between flushes.</p>
+</div></div></div>
+
+<div class="guide-phase" style="--phase-color:#db2777">
+<div class="guide-phase-header" onclick="toggleGuide(this)">
+<div class="guide-phase-num" style="background:#db2777">6</div>
+<div><div class="guide-phase-title">Drying</div><div class="guide-phase-sub">Three protocols — finding the right time and temp</div></div>
+<div class="guide-arrow">▾</div>
+</div>
+<div class="guide-body" style="display:none">
+<div class="guide-art">🌡️💨</div>
+<div class="guide-content">
+<p><strong>Goal: cracker dry.</strong> Not leathery, not bendy — snap-in-half cracker dry. Any remaining moisture will cause degradation and mold in storage.</p>
+<p>I use a Magic Mill dehydrator and I've tested two protocols so far with a third planned:</p>
+<div class="guide-protocol">
+<div class="guide-proto-card" style="border-color:#db2777">
+<div class="guide-proto-name">Low & Slow</div>
+<div class="guide-proto-detail">110°F for 16 hours</div>
+<div style="font-size:13px;color:var(--text2);margin-top:6px">Used on APE F1. Cracker dry. Conservative approach — minimal heat exposure to preserve potency. Takes overnight.</div>
+</div>
+<div class="guide-proto-card" style="border-color:#d97706">
+<div class="guide-proto-name">Hot & Fast</div>
+<div class="guide-proto-detail">152-153°F for 6 hours</div>
+<div style="font-size:13px;color:var(--text2);margin-top:6px">Used on B+ F1. Also cracker dry. Done in an afternoon. No noticeable quality difference from low & slow.</div>
+</div>
+<div class="guide-proto-card" style="border-color:#2563eb">
+<div class="guide-proto-name">Middle Ground</div>
+<div class="guide-proto-detail">140°F for 10 hours</div>
+<div style="font-size:13px;color:var(--text2);margin-top:6px">Planned for next run. Splitting the difference — moderate heat, moderate time. Will compare results to both existing protocols.</div>
+</div>
+</div>
+<p><strong>Check at the midpoint.</strong> Pull the trays, clean any debris, separate clusters that are still damp inside. Rotate trays if your dehydrator has hot spots.</p>
+<p><strong>Weigh dry.</strong> Record the dry weight. Calculate the wet-to-dry ratio. B+ came in at 7.0% (1,472g wet → 102.9g dry). This ratio tells you about water content and gives you a benchmark for future grows.</p>
+</div></div></div>
+
+<div class="guide-phase" style="--phase-color:#dc2626">
+<div class="guide-phase-header" onclick="toggleGuide(this)">
+<div class="guide-phase-num" style="background:#dc2626">7</div>
+<div><div class="guide-phase-title">Between Flushes</div><div class="guide-phase-sub">Rehydration, rest, and the contamination danger zone</div></div>
+<div class="guide-arrow">▾</div>
+</div>
+<div class="guide-body" style="display:none">
+<div class="guide-art">🔄⚠️</div>
+<div class="guide-content">
+<p><strong>This is where I've lost the most tubs.</strong> Both APE-01 and B+-01 lost their second flushes to Trichoderma — green mold appearing at the center of the substrate within days of rehydration. Same presentation both times.</p>
+<p><strong>The hypothesis: tap water.</strong> Every other moisture input in the process uses boiling water — coco coir hydration, steam pasteurization. But between flushes, I was dunking the substrate in tap water. That's the only unsterilized water source touching the substrate. Two for two on F2 contamination with that method.</p>
+<p><strong>New protocol.</strong> Use boiled-then-cooled water only for all rehydration. Bottom-watering is preferred over dunking — less disruption to the substrate surface. Clean spray bottles between flushes with IPA. No tap water touches the substrate, ever.</p>
+<p><strong>Light rehydration.</strong> After harvest, the substrate needs moisture replaced. Don't oversaturate — the substrate should be damp but not dripping. Return to the grow tent for another round of fruiting conditions.</p>
+<div class="guide-tip" style="background:var(--red-bg);border-color:var(--red)">Hard lesson: If you see green at the center of the substrate after rehydration, it's probably Trichoderma from unsterilized water. Don't try to save it — dispose of the cake outside and clean the tub with IPA and sun.</div>
+</div></div></div>
+
+<div class="guide-phase" style="--phase-color:#0d9488">
+<div class="guide-phase-header" onclick="toggleGuide(this)">
+<div class="guide-phase-num" style="background:#0d9488">8</div>
+<div><div class="guide-phase-title">Processing & Storage</div><div class="guide-phase-sub">Grinding, capsules, and long-term preservation</div></div>
+<div class="guide-arrow">▾</div>
+</div>
+<div class="guide-body" style="display:none">
+<div class="guide-art">💊🫙</div>
+<div class="guide-content">
+<p><strong>Store whole until ready.</strong> Don't grind everything at once. Whole dried mushrooms stored properly will last much longer than powder. Only process what you're going to use in the near term.</p>
+<p><strong>Processing batches.</strong> 25g at a time through a grain mill to fine powder. Fill into 0.25g capsules using a capsule machine — that gives you exactly 100 capsules per 25g batch. I use both size 0 and size 00 capsule machines depending on the application.</p>
+<p><strong>Storage.</strong> Herb Guard vacuum jars with desiccant packets inside. Store at approximately 68°F in a dark storage tent. The vacuum seal plus desiccant keeps moisture out, and darkness prevents UV degradation. Label every jar with strain, flush, weight, and date jarred.</p>
+<p><strong>Track depletion.</strong> When you pull from a jar, log it. The app tracks remaining weight per jar so you always know what you have on hand. Current inventory: APE 74g (F1), B+ 102.9g (F1) = 176.9g total.</p>
+<div class="guide-tip">At 0.25g per capsule, 25g gives you 100 doses. A single B+ flush of 102.9g is over 400 capsules. That's significant volume from one tub.</div>
+</div></div></div>
+</div>
 </div>
 <div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal-box"><div class="modal-title" id="modal-title"></div><div id="modal-body"></div><div class="modal-actions" id="modal-actions"></div></div></div>
 <div class="toast" id="toast"></div>
@@ -69,8 +224,9 @@ function syncSt(s){const el=document.getElementById('sync');if(s==='ok'){el.text
 const S={tubs:[],harv:[],cont:[],storage:[],depletion:[],notes:[],blog:[],inv:{spores:[],grain:[],substrate:[],equipment:[]}};let envLogs=[],dbOk=false;
 function v(id){return document.getElementById(id)?.value||''}function today(){return new Date().toISOString().split('T')[0]}function dB(a,b){if(!a||!b)return null;return Math.round((new Date(b)-new Date(a))/86400000)}function toggleEl(id){const el=document.getElementById(id);if(el)el.style.display=el.style.display==='none'?'block':'none'}function flash(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}function escH(s){return(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function openModal(t,b,a){document.getElementById('modal-title').textContent=t;document.getElementById('modal-body').innerHTML=b;document.getElementById('modal-actions').innerHTML=a;document.getElementById('modal-bg').classList.add('open')}function closeModal(){document.getElementById('modal-bg').classList.remove('open')}
+function toggleGuide(el){const body=el.nextElementSibling;const arrow=el.querySelector('.guide-arrow');if(body.style.display==='none'){body.style.display='block';arrow.classList.add('open')}else{body.style.display='none';arrow.classList.remove('open')}}
 function ageDays(d){if(!d)return null;return dB(d,today())}function ageStr(d){const n=ageDays(d);if(n===null)return'?';if(n<30)return n+'d';if(n<365)return Math.round(n/30)+'mo';return(n/365).toFixed(1)+'yr'}
-const TABS=['dashboard','runs','harvest','storage','inventory','contamination','environment','blog','notes'];
+const TABS=['dashboard','runs','harvest','storage','inventory','contamination','environment','blog','notes','guide'];
 function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('nav button').forEach(b=>b.classList.remove('on'));const pg=document.getElementById('pg-'+id);if(pg)pg.classList.add('on');const i=TABS.indexOf(id);if(i>=0){const b=document.querySelectorAll('nav button');if(b[i])b[i].classList.add('on')}if(id==='runs'){document.getElementById('all-runs').style.display='';document.getElementById('run-detail').style.display='none'}if(id==='harvest')renderHarv();if(id==='contamination')popContDrop();if(id==='new-run')popNewRun();if(id==='environment')loadEnv();if(id==='blog')renderBlog();if(id==='inventory')renderInv();window.scrollTo(0,0)}
 function seedDefaults(){
 if(!S.tubs.length)S.tubs=[{id:'green',status:'done',strain:'B+',phase:'done',spore:'ITW Batch 4685',cc:'4',grainbags:'1',subbags:'3',spawndate:'2025-11-28',fcdate:'2026-03-09',flush:'2',drying:'6hrs at 152-153F',coltemp:'74',container:'tub',tub:'green',location:'',notes:'Green Tub. F1: 1,472g wet / 102.9g dry (7.0%). F2 lost to Trichoderma.'},{id:'black-1',status:'active',strain:'Yeti',phase:'colonizing',spore:'ITW Batch 4695',cc:'4',grainbags:'1',subbags:'3',spawndate:'2026-03-09',fcdate:'',flush:'1',drying:'',coltemp:'74',container:'grain bag',tub:'black-1',location:'colonization tent',notes:'Yellow dot. Healthy but slow (~30% at Day 28). 68-74F, dark, no air.'},{id:'black-2',status:'active',strain:'Tidal Wave',phase:'colonizing',spore:'ITW Batch 4660',cc:'4',grainbags:'1',subbags:'3',spawndate:'2026-03-09',fcdate:'',flush:'1',drying:'',coltemp:'74',container:'grain bag',tub:'black-2',location:'colonization tent',notes:'Blue dot. Port clogged at inoc — est ~4cc. Decision point ~Apr 13.'},{id:'pink',status:'done',strain:'APE',phase:'done',spore:'ITW Batch 4696',cc:'3',grainbags:'1',subbags:'1',spawndate:'2025-11-28',fcdate:'2026-01-27',flush:'1',drying:'16hrs at 110F',coltemp:'72',container:'tub',tub:'pink',location:'',notes:'F1: ~79g dry. F2 attempted — Trichoderma, aborted Mar 9.'}];
